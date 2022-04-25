@@ -6,7 +6,7 @@ A library rest spring app
 
 ## Database
 
-cd to /docker and execute build to create database container
+cd to /DATABASE and execute build to create database container
 
 ```bash
   docker build -t db . 
@@ -21,9 +21,22 @@ init database
 ```bash
  docker exec -i db mysql -u root --password=password <init_db.sql
 ```
+if error occured
+```bash
+ ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+```
+Try to rerun last command. If the error persists, make sure mysql-server is installed:
+```bash
+ sudo apt update
+
+```
+```bash
+ sudo apt install mysql-server
+
+```
+
 
 ## Check connection with server
-
 
 run the spring app and ping
 
