@@ -1,0 +1,28 @@
+.bookList {
+  width: 100%;
+  background-color: #ddd;
+}
+
+.bookItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto  1fr;
+}
+
+.bookDate{
+  width: 100px;
+  text-align: center;
+}
+.bookAvailability{
+  width: 100px;
+  text-align: center;
+}
+.bookBtns {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  width: 100px;
+  margin: 0 10px;
+  border-radius: 10px ;
+}
