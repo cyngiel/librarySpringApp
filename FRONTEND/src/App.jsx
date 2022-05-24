@@ -5,6 +5,10 @@ import { HomeView } from './views/HomeView/HomeView';
 import './App.css';
 import { BooksView } from './views/BooksView/BooksView'
 import { SingleBookView } from './views/SingleBookView/SingleBookView'
+import { AddBookView } from './views/AddBookView/AddBookView'
+import { SignInSignUpView } from './views/SignInSignUpView/SignInSignUpView';
+import { UserBooksView } from './views/UserBooksView/UserBooksView';
+
 
 
 function App() {
@@ -16,6 +20,9 @@ function App() {
 					<Route path='/home' element={<HomeView />} />
 					<Route path='/books' element={<BooksView />} />
 					<Route path='/books/:id' element={<SingleBookView />} />
+					<Route path='/add-book' element={<AddBookView />} />
+					<Route path='/sign-in' element={<SignInSignUpView />} />
+					<Route path='/user-book-list' element={<UserBooksView />} />
 				</Routes>
 			</Main>
 		</>
