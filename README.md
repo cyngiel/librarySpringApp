@@ -94,7 +94,6 @@ parameters:
 
 #### library.book
 
-
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `title`   | `string` | **NOT NULL**.      |
@@ -107,6 +106,15 @@ parameters:
 | `items` | `int` | **NOT NULL**.  |
 | `available_items` | `int` | **NOT NULL**.  |
 | `book_id` | `int` | **NOT NULL**, *AUTO_INCREMENT*. |
+
+
+#### library.book_item
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `book_item_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*.  |
+| `status` | `string` | **NOT NULL** |
+| `book_id` | `int` | **NOT NULL**, *FOREGIN_KEY*. |
 
 
 #### library.user
