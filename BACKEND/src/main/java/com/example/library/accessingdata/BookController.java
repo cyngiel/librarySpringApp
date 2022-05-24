@@ -1,8 +1,11 @@
 package com.example.library.accessingdata;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller // This means that this class is a Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -33,7 +36,11 @@ public class BookController {
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Book> getAllBooks() {
-        // This returns a JSON or XML with the users
         return bookRepository.findAll();
+    }
+
+    @GetMapping(path="/id")
+    public @ResponseBody ResponseEntity<Book> getBookById(@RequestParam int id) {
+        return bookRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
     }
 }
