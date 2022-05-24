@@ -116,6 +116,14 @@ parameters:
 | `status` | `string` | **NOT NULL** |
 | `book_id` | `int` | **NOT NULL**, *FOREGIN_KEY*. |
 
+#### library.borrowing
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `borrowing_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*.  |
+| `date` | `date` | **NOT NULL** |
+| `user_id` | `int` | **NOT NULL**, *FOREGIN_KEY*. |
+| `book_item_id`   | `int` | **NOT NULL**. *FOREGIN_KEY*.  |
 
 #### library.user
 
