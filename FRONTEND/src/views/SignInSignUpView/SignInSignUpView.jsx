@@ -50,17 +50,17 @@ export const SignInSignUpView = () => {
 
 	return (
 		<div className={styles.wrapper}>
-      
-      {isLogIn ? (
-					<h2 className={styles.formTitle}>Log Into Online bookstore</h2>
-				) : (
-					<h2 className={styles.formTitle}>Create new account</h2>
-				)}
-			
+			{isLogIn ? (
+				<h2 className={styles.formTitle}>Log Into Online bookstore</h2>
+			) : (
+				<h2 className={styles.formTitle}>Create new account</h2>
+			)}
+
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<Input
 					type='text'
 					name='login'
+					label='Login'
 					register={register}
 					validationFunction={loginValidate}
 					errors={errors.login}
@@ -68,19 +68,21 @@ export const SignInSignUpView = () => {
 				<Input
 					type='password'
 					name='password'
+					label='Password'
 					register={register}
 					validationFunction={passwordValidate}
 					errors={errors.password}
 				/>
-				{!isLogIn && 
+				{!isLogIn && (
 					<Input
 						type='text'
 						name='email'
+						label='Email'
 						register={register}
 						validationFunction={emailValidate}
 						errors={errors.email}
 					/>
-				}
+				)}
 				{isLogIn ? (
 					<Button name='Log in' type='submit' />
 				) : (

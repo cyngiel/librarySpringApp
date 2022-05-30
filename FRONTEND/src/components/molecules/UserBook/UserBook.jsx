@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './UserBook.module.scss';
 
-export const UserBook = ({ id, title, author, rental, deadline, bookStatus }) => {
+export const UserBook = ({ title, author, rental, deadline, bookStatus }) => {
 	return (
 		<li className={styles.bookItem}>
 			<p className={styles.bookTitle}>{title}</p>
@@ -14,7 +14,6 @@ export const UserBook = ({ id, title, author, rental, deadline, bookStatus }) =>
 };
 
 UserBook.propTypes = {
-	id: PropTypes.string,
 	title: PropTypes.string,
 	author: PropTypes.string,
 	rental: PropTypes.string,

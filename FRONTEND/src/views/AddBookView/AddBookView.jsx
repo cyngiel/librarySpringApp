@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '../../components/atoms/Button/Button';
 import { Input } from '../../components/atoms/Input/Input';
 import { Textarea } from '../../components/atoms/Textarea/Textarea';
@@ -16,31 +15,24 @@ export const AddBookView = () => {
 		required: 'Title is required',
 	};
 	const authorValidation = {
-		required: 'Title is required',
+		required: 'Author is required',
 	};
 	const categoryValidation = {
-		required: 'Title is required',
+		required: 'Book category is required',
 	};
 	const catalogNumberValidation = {
-		required: 'Title is required',
+		required: 'Catalog number is required',
 	};
 	const publishYearValidation = {
-		required: 'Title is required',
-	};
-	const publishingHouseValidation = {
-		required: 'Title is required',
+		required: 'Publish Year is required',
 	};
 	const itemsValidation = {
-		required: 'Title is required',
+		required: 'Amount of items is required',
 	};
 
 	const onSubmit = (data) => {
 		console.log('submit', data);
 	};
-	// const handleSubmit = (event) => {
-	// 	event.preventDefault();
-	// 	console.log('Wysyłam dane:', formData);
-	// };
 
 	return (
 		<>
@@ -50,6 +42,7 @@ export const AddBookView = () => {
 					<Input
 						type='text'
 						name='title'
+						label='Title'
 						register={register}
 						validationFunction={titleValidation}
 						errors={errors.title}
@@ -57,6 +50,7 @@ export const AddBookView = () => {
 					<Input
 						type='text'
 						name='author'
+						label='Author'
 						register={register}
 						validationFunction={authorValidation}
 						errors={errors.author}
@@ -64,6 +58,7 @@ export const AddBookView = () => {
 					<Input
 						type='text'
 						name='category'
+						label='Category'
 						register={register}
 						validationFunction={categoryValidation}
 						errors={errors.category}
@@ -71,6 +66,7 @@ export const AddBookView = () => {
 					<Input
 						type='text'
 						name='catalog_number'
+						label='Catalog number'
 						register={register}
 						validationFunction={catalogNumberValidation}
 						errors={errors.catalog_number}
@@ -78,6 +74,7 @@ export const AddBookView = () => {
 					<Input
 						type='text'
 						name='publish_year'
+						label='Publish year'
 						register={register}
 						validationFunction={publishYearValidation}
 						errors={errors.publish_year}
@@ -85,20 +82,18 @@ export const AddBookView = () => {
 					<Input
 						type='text'
 						name='publishing_house'
+						label='Publishing_house'
 						register={register}
-						// errors={errors.publishing_house}
 					/>
 					<Input
-						type='text'
+						type='number'
 						name='items'
+						label='Amount of items'
 						register={register}
 						validationFunction={itemsValidation}
 						errors={errors.items}
 					/>
-					<Textarea
-						name='description'
-						register={register}
-					/>
+					<Textarea name='description' register={register} />
 					<Button name='Add' type='submit' />
 				</form>
 			</section>
