@@ -1,9 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS library;
 
 DROP TABLE IF EXISTS library.book;
-
 CREATE TABLE library.book
 (
+	book_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
     title               VARCHAR(50) NOT NULL,
     author              VARCHAR(50) NOT NULL,
     category            VARCHAR(50) NOT NULL,
@@ -13,24 +13,58 @@ CREATE TABLE library.book
     catalog_number      VARCHAR(20), 
     items               INT(3) UNSIGNED NOT NULL, 
     available_items     INT(3) UNSIGNED NOT NULL, 
-    book_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-
+    
     PRIMARY KEY (book_id)
 );
 
-DROP TABLE IF EXISTS library.user;
+DROP TABLE IF EXISTS library.book_item;
+CREATE TABLE library.book_item
+(
+	book_item_id		INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    status				VARCHAR(20) NOT NULL,
+    book_id             INT(3) UNSIGNED NOT NULL ,
 
+    PRIMARY KEY (book_item_id),
+    FOREIGN KEY (book_id) REFERENCES book(book_id)
+);
+
+DROP TABLE IF EXISTS library.borrowing;
+CREATE TABLE library.borrowing
+(
+	borrowing_id		INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    date				date, 
+    book_item_id        INT(3) UNSIGNED NOT NULL ,
+    user_id             INT(3) UNSIGNED NOT NULL ,
+
+    PRIMARY KEY (borrowing_id),
+    FOREIGN KEY (book_item_id) REFERENCES book_item(book_item_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+
+CREATE TRIGGER library.on_insert_
+ON table_name
+AFTER  {[INSERT],[UPDATE],[DELETE]}
+[NOT FOR REPLICATION]
+AS
+{sql_statements}
+
+
+######################################################### 
+
+DROP TABLE IF EXISTS library.user;
 CREATE TABLE library.user
 (
+	user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
     name                VARCHAR(30) NOT NULL,
     last_name           VARCHAR(30) NOT NULL,
     email               VARCHAR(30) NOT NULL,
     password            VARCHAR(30) NOT NULL,
-    user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-
+    
     PRIMARY KEY (user_id)
 );
 
+#########################################################
+#########################################################
 #########################################################
 
 insert into library.book (title, author, category, publish_year, publishing_house, catalog_number, items, available_items, description)
