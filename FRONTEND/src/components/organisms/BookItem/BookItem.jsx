@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addBook } from '../../../redux-toolkit/features/books/bookSlice';
 
-export const BookItem = ({id, title, author, date, availability }) => {
+export const BookItem = ({ id, title, author, date, availability }) => {
 	const dispatch = useDispatch();
-
-	const handleAddBook = () => dispatch(addBook(id))
-
+	const handleAddBook = () => dispatch(addBook(id));
 
 	return (
 		<li className={styles.bookItem}>
@@ -17,8 +15,12 @@ export const BookItem = ({id, title, author, date, availability }) => {
 			<p className={styles.bookDate}>{date}</p>
 			<p className={styles.bookAvailability}>{availability}</p>
 			<div className={styles.bookBtns}>
-				<Link to={`/books/${id}`}>Read more</Link>
-				<button className={styles.btn} onClick={handleAddBook}>Add To card</button>
+				<Link to={`/books/${id}`}>
+					<button className={styles.btn}>Read more</button>
+				</Link>
+				<button className={styles.btn} onClick={handleAddBook}>
+					Reserve
+				</button>
 			</div>
 		</li>
 	);
@@ -26,7 +28,7 @@ export const BookItem = ({id, title, author, date, availability }) => {
 
 BookItem.propTypes = {
 	articleData: PropTypes.shape({
-    id: PropTypes.string,
+		id: PropTypes.string,
 		title: PropTypes.string,
 		author: PropTypes.string,
 		date: PropTypes.string,

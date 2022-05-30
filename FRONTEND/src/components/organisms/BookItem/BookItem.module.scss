@@ -1,16 +1,24 @@
 .bookItem {
   display: grid;
-  grid-template-columns: 1fr 1fr auto auto  1fr;
+  grid-template-columns: 1fr 1fr auto auto 1fr;
+  padding: 10px 0 10px 10px;
+
+  &:nth-of-type(2n-1) {
+    background-color: #bbb;
+  }
 }
 
-.bookDate{
+.bookDate {
+  width: 100px;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.bookAvailability {
   width: 100px;
   text-align: center;
 }
-.bookAvailability{
-  width: 100px;
-  text-align: center;
-}
+
 .bookBtns {
   display: flex;
   justify-content: center;
@@ -19,5 +27,15 @@
 .btn {
   width: 100px;
   margin: 0 10px;
-  border-radius: 10px ;
+  border-radius: 10px;
+  border: 2px solid rgba(#000000, 0.5);
+  background-color: rgba(#fff, 1);
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+    border: 2px solid rgba(#000000, 0.8);
+    background-color: rgba(#fff, 0.1);
+  }
+
 }

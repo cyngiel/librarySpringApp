@@ -8,6 +8,7 @@ import { SingleBookView } from './views/SingleBookView/SingleBookView'
 import { AddBookView } from './views/AddBookView/AddBookView'
 import { SignInSignUpView } from './views/SignInSignUpView/SignInSignUpView';
 import { UserBooksView } from './views/UserBooksView/UserBooksView';
+import { AdminBooksView } from './views/AdminBooksView/AdminBooksView';
 
 
 
@@ -17,12 +18,13 @@ function App() {
 			<Header />
 			<Main>
 				<Routes>
-					<Route path='/home' element={<HomeView />} />
+					<Route path='/' element={<HomeView />} />
 					<Route path='/books' element={<BooksView />} />
 					<Route path='/books/:id' element={<SingleBookView />} />
 					<Route path='/add-book' element={<AddBookView />} />
 					<Route path='/sign-in' element={<SignInSignUpView />} />
 					<Route path='/user-book-list' element={<UserBooksView />} />
+					<Route path='/admin-book-list' element={<AdminBooksView />} />
 				</Routes>
 			</Main>
 		</>

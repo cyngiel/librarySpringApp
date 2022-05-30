@@ -1,7 +1,5 @@
-import styles from './MenuItem.module.scss'
+import styles from './MenuItem.module.scss';
 
-export const MenuItem = ({children}) => {
-  return (
-    <li className={styles.navMenuItem}>{children}</li>
-  )
-}
+export const MenuItem = ({ children }) => (
+	<li className={styles.navMenuItem}>{children}</li>
+);
