@@ -23,5 +23,4 @@ public class Book {
     private String catalog_number;
     private int items;
     private int available_items;
-
 }
