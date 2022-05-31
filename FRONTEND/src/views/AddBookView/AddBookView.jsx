@@ -31,7 +31,20 @@ export const AddBookView = () => {
 	};
 
 	const onSubmit = (data) => {
-		console.log('submit', data);
+		( async () => {
+			const res = await fetch('http://localhost:8080/book/add', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					...data,
+					publish_year: Number(data.publish_year),
+					items: Number(data.items),
+				})
+			})
+			console.log('Zwrotka', res)
+		}) ()
 	};
 
 	return (
