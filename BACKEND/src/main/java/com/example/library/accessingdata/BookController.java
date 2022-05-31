@@ -18,6 +18,7 @@ public class BookController {
         // @RequestParam means it is a parameter from the GET or POST request
 
         Book b = new Book();
+
         b.setTitle(title);
         b.setAuthor(author);
         b.setCategory(category);
