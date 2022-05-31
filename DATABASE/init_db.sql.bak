@@ -49,6 +49,13 @@ CREATE TABLE library.borrowing
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
+CREATE TRIGGER library.on_insert_
+ON table_name
+AFTER  {[INSERT],[UPDATE],[DELETE]}
+[NOT FOR REPLICATION]
+AS
+{sql_statements}
+
 
 ######################################################### 
 
