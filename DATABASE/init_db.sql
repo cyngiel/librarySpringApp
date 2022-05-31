@@ -1,6 +1,17 @@
-CREATE SCHEMA IF NOT EXISTS library;
+DROP SCHEMA IF EXISTS library;
+CREATE SCHEMA library;
 
-DROP TABLE IF EXISTS library.book;
+CREATE TABLE library.user
+(
+	user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    name                VARCHAR(30) NOT NULL,
+    last_name           VARCHAR(30) NOT NULL,
+    email               VARCHAR(30) NOT NULL,
+    password            VARCHAR(30) NOT NULL,
+    
+    PRIMARY KEY (user_id)
+);
+
 CREATE TABLE library.book
 (
 	book_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -17,7 +28,6 @@ CREATE TABLE library.book
     PRIMARY KEY (book_id)
 );
 
-DROP TABLE IF EXISTS library.book_item;
 CREATE TABLE library.book_item
 (
 	book_item_id		INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -28,7 +38,6 @@ CREATE TABLE library.book_item
     FOREIGN KEY (book_id) REFERENCES book(book_id)
 );
 
-DROP TABLE IF EXISTS library.borrowing;
 CREATE TABLE library.borrowing
 (
 	borrowing_id		INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -41,27 +50,6 @@ CREATE TABLE library.borrowing
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TRIGGER library.on_insert_
-ON table_name
-AFTER  {[INSERT],[UPDATE],[DELETE]}
-[NOT FOR REPLICATION]
-AS
-{sql_statements}
-
-
-######################################################### 
-
-DROP TABLE IF EXISTS library.user;
-CREATE TABLE library.user
-(
-	user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-    name                VARCHAR(30) NOT NULL,
-    last_name           VARCHAR(30) NOT NULL,
-    email               VARCHAR(30) NOT NULL,
-    password            VARCHAR(30) NOT NULL,
-    
-    PRIMARY KEY (user_id)
-);
 
 #########################################################
 #########################################################
