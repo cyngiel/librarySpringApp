@@ -1,7 +1,6 @@
 package com.example.library.accessingdata;
 
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,5 +21,4 @@ public class Book {
     private String description;
     private String catalog_number;
     private int items;
-    private int available_items;
 }
