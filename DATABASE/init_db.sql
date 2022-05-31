@@ -1,3 +1,4 @@
+set names utf8;
 DROP SCHEMA IF EXISTS library;
 CREATE SCHEMA library;
 
