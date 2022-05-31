@@ -1,4 +1,16 @@
-CREATE SCHEMA IF NOT EXISTS library;
+DROP SCHEMA IF EXISTS library;
+CREATE SCHEMA library;
+
+CREATE TABLE library.user
+(
+	user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    name                VARCHAR(30) NOT NULL,
+    last_name           VARCHAR(30) NOT NULL,
+    email               VARCHAR(30) NOT NULL,
+    password            VARCHAR(30) NOT NULL,
+    
+    PRIMARY KEY (user_id)
+);
 
 CREATE TABLE library.book
 (
@@ -26,17 +38,6 @@ CREATE TABLE library.book_item
     FOREIGN KEY (book_id) REFERENCES book(book_id)
 );
 
-CREATE TABLE library.user
-(
-	user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-    name                VARCHAR(30) NOT NULL,
-    last_name           VARCHAR(30) NOT NULL,
-    email               VARCHAR(30) NOT NULL,
-    password            VARCHAR(30) NOT NULL,
-    
-    PRIMARY KEY (user_id)
-);
-
 CREATE TABLE library.borrowing
 (
 	borrowing_id		INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -48,10 +49,6 @@ CREATE TABLE library.borrowing
     FOREIGN KEY (book_item_id) REFERENCES book_item(book_item_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
-
-
-######################################################### 
-
 
 
 #########################################################
