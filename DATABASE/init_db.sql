@@ -28,7 +28,28 @@ CREATE TABLE library.book_item
     FOREIGN KEY (book_id) REFERENCES book(book_id)
 );
 
+<<<<<<< Updated upstream
 DROP TABLE IF EXISTS library.borrowing;
+=======
+DELIMITER $$
+CREATE TRIGGER update_book_items_counter_on_insert
+    AFTER INSERT ON book_item
+FOR EACH ROW
+BEGIN
+  UPDATE book SET items = items + 1 WHERE book_id = NEW.book_id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER update_book_items_number_on_delete
+    AFTER DELETE ON book_item
+FOR EACH ROW
+BEGIN
+  UPDATE book SET items = items - 1 WHERE book_id = OLD.book_id;
+END $$
+DELIMITER ;
+
+>>>>>>> Stashed changes
 CREATE TABLE library.borrowing
 (
 	borrowing_id		INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
