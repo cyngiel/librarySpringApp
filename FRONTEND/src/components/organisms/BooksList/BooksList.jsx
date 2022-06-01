@@ -1,10 +1,20 @@
 import styles from './BooksList.module.scss';
 import { BookItem } from '../BookItem/BookItem';
-import { booksData } from '../../../data/books';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 export const BooksList = () => {
 	const { seatchWord } = useSelector((state) => state.search);
+	const [booksList, setBookList] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			const res = await fetch('http://localhost:8080/book/all');
+			const bookData = await res.json()
+			console.log()
+			setBookList(bookData)
+		})()
+	}, [])
 
 	return (
 		<div className={styles.listWrapper}>
@@ -15,16 +25,17 @@ export const BooksList = () => {
 					<p className={styles.bookDate}>Created at</p>
 					<p className={styles.bookAvailability}>Availability</p>
 				</li>
-				{booksData
+				{booksList
 					.filter((book) => book.title.includes(seatchWord))
-					.map(({ id, title, author, date, available_items }) => (
+					.map(({ book_id, title, author, publish_year, available_items, items}) => (
 						<BookItem
-							key={id}
-							id={id}
+							key={book_id}
+							id={book_id}
 							title={title}
 							author={author}
-							date={date}
+							date={publish_year}
 							availability={available_items}
+							items = {items}
 						/>
 					))}
 			</ul>
