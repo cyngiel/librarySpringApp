@@ -1,15 +1,20 @@
 package com.example.library.accessingdata;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+@ToString
 @Data
 @Entity
-public class Book {
+public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int book_id;
@@ -21,4 +26,13 @@ public class Book {
     private String description;
     private String catalog_number;
     private int items;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookItem> bookItems;
+
+    @JsonManagedReference
+    public List<BookItem> getBookItems(){
+        return bookItems;
+    }
+
 }
