@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addBook } from '../../../redux-toolkit/features/books/bookSlice';
 
-export const BookItem = ({ id, title, author, date, availability }) => {
+export const BookItem = ({ id, title, author, date, availability, items }) => {
 	const dispatch = useDispatch();
 	const handleAddBook = () => dispatch(addBook(id));
 
@@ -13,7 +13,7 @@ export const BookItem = ({ id, title, author, date, availability }) => {
 			<p className={styles.bookTitle}>{title}</p>
 			<p className={styles.bookAuthor}>{author}</p>
 			<p className={styles.bookDate}>{date}</p>
-			<p className={styles.bookAvailability}>{availability}</p>
+			<p className={styles.bookAvailability}>{availability} / {items}</p>
 			<div className={styles.bookBtns}>
 				<Link to={`/books/${id}`}>
 					<button className={styles.btn}>Read more</button>
@@ -28,10 +28,11 @@ export const BookItem = ({ id, title, author, date, availability }) => {
 
 BookItem.propTypes = {
 	articleData: PropTypes.shape({
-		id: PropTypes.string,
+		id: PropTypes.number,
 		title: PropTypes.string,
 		author: PropTypes.string,
 		date: PropTypes.string,
 		availability: PropTypes.number,
+		items: PropTypes.number,
 	}),
 };
