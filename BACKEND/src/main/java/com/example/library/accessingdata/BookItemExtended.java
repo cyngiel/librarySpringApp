@@ -1,6 +1,7 @@
 package com.example.library.accessingdata;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,8 +11,9 @@ import java.util.List;
 
 @ToString
 @Data
+@Builder
 @Entity
-public class Book implements Serializable {
+public class BookItemExtended implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int book_id;
@@ -20,16 +22,9 @@ public class Book implements Serializable {
     private String category;
     private int publish_year;
     private String publishing_house;
-    private String description;
     private String catalog_number;
     private int items;
 
-    @OneToMany(mappedBy = "book")
-    private List<BookItem> bookItems;
-
-    @JsonManagedReference
-    public List<BookItem> getBookItems(){
-        return bookItems;
-    }
-
+    private int book_item_id;
+    private String status;
 }

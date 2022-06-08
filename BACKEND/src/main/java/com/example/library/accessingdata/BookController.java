@@ -6,31 +6,149 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-@Controller // This means that this class is a Controller
+import static com.example.library.accessingdata.BookItemStatus.*;
+
+@Controller
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "/book")
 public class BookController {
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private BookItemRepository bookItemRepository;
+    @Autowired
+    private NewsRepository newsRepository;
 
-    @PostMapping(path = "/add") // Map ONLY POST Requests
+    @PostMapping(path = "/add")
     public @ResponseBody
     ResponseEntity<String> addNewBook(@RequestBody Book book) {
         bookRepository.save(book);
-        return new ResponseEntity<>("saved", HttpStatus.OK);
+        News news = new News();
+        news.setTitle("Nowa pozycja w Bibliotece: " + book.getTitle() + "!");
+        news.setContent("W zaspbach naszej Biblioteki jest już dostępna nowa książka: " + book.getTitle() + ", autor: " + book.getAuthor() + ". Zapraszamy do czytania :)");
+        newsRepository.save(news);
+        return new ResponseEntity<>("saved", HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/all")
     public @ResponseBody
-    ResponseEntity<Iterable<Book> >getAllBooks() {
+    ResponseEntity<Iterable<BookOverallInfo>> getAllBooks() {
         Iterable<Book> allBooks = bookRepository.findAll();
-        return new ResponseEntity<>(allBooks, HttpStatus.OK);
+        List<BookOverallInfo> allBookOverallInfo = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .map(this::mapBookOverallInfo)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(allBookOverallInfo, HttpStatus.OK);
     }
 
-    @GetMapping(path="/id")
-    public @ResponseBody ResponseEntity<Book> getBookById(@RequestParam int id) {
-        return bookRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+    private BookOverallInfo mapBookOverallInfo(Book book) {
+        return new BookOverallInfo.BookOverallInfoBuilder()
+                .book_id(book.getBook_id())
+                .title(book.getTitle())
+                .author(book.getAuthor())
+                .category(book.getCategory())
+                .items(book.getItems())
+                .stockItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(STOCK)).count())
+                .borrowedItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(BORROWED)).count())
+                .reservedItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(RESERVED)).count())
+                .build();
+    }
+
+    @GetMapping(path = "/id")
+    public @ResponseBody
+    ResponseEntity<BookDetailedInfo> getBookById(@RequestParam int id) {
+        return bookRepository.findById(id).map(this::mapBookDetailedInfo).orElse(ResponseEntity.noContent().build());
+    }
+
+    private ResponseEntity<BookDetailedInfo> mapBookDetailedInfo(Book book) {
+        return new ResponseEntity<>(new BookDetailedInfo.BookDetailedInfoBuilder()
+                .book_id(book.getBook_id())
+                .title(book.getTitle())
+                .author(book.getAuthor())
+                .category(book.getCategory())
+                .items(book.getItems())
+                .stockItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(STOCK)).count())
+                .borrowedItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(BORROWED)).count())
+                .reservedItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(RESERVED)).count())
+                .build(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/reserve")
+    public @ResponseBody
+    ResponseEntity<String> reserveBookById(@RequestParam int id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (!book.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Optional<BookItem> optionalBookItem = book.get().getBookItems().stream().filter(item -> item.getStatus().equals(STOCK)).findFirst();
+        if (!optionalBookItem.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        BookItem bookItem = optionalBookItem.get();
+        bookItem.setStatus(RESERVED);
+        bookItemRepository.save(bookItem);
+        return new ResponseEntity<>("Updated", HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/reserve/all")
+    public @ResponseBody
+    ResponseEntity<Iterable<BookItemExtended>> getAllReservedBooks() {
+        Iterable<BookItem> allBooks = bookItemRepository.findAll();
+        List<BookItemExtended> reservedBooks = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                .map(this::mapReservedBooks)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/borrow")
+    public @ResponseBody
+    ResponseEntity<String> borrowBookById(@RequestParam int id) {
+        Optional<BookItem> optionalBookItem = bookItemRepository.findById(id);
+        if (!optionalBookItem.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        BookItem bookItem = optionalBookItem.get();
+        bookItem.setStatus(BORROWED);
+        bookItemRepository.save(bookItem);
+        return new ResponseEntity<>("Updated", HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/borrow/all")
+    public @ResponseBody
+    ResponseEntity<Iterable<BookItemExtended>> getAllBorrowedBooks() {
+        Iterable<BookItem> allBooks = bookItemRepository.findAll();
+        List<BookItemExtended> reservedBooks = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(BORROWED))
+                .map(this::mapReservedBooks)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
+    }
+
+    private BookItemExtended mapReservedBooks(BookItem bookItem) {
+        return new BookItemExtended.BookItemExtendedBuilder()
+                .book_id(bookItem.getBook().getBook_id())
+                .title(bookItem.getBook().getTitle())
+                .author(bookItem.getBook().getAuthor())
+                .category(bookItem.getBook().getCategory())
+                .items(bookItem.getBook().getItems())
+                .catalog_number(bookItem.getBook().getCatalog_number())
+                .publish_year(bookItem.getBook().getPublish_year())
+                .publishing_house(bookItem.getBook().getPublishing_house())
+                .book_item_id(bookItem.getBook_item_id())
+                .status(bookItem.getStatus().name())
+                .build();
     }
 }
