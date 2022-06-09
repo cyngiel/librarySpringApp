@@ -194,6 +194,13 @@ Need to pass id of the BOOK as a parameter!
 ```
 Need to pass id of the BOOK ITEM as a parameter!
 
+### Return a book item (unique copy of the book)
+
+```http
+  POST /book/return?id=3
+```
+Need to pass id of the BOOK ITEM as a parameter!
+
 ### Add a news
 
 ```http
