@@ -131,11 +131,25 @@ public class BookController {
     ResponseEntity<String> borrowBookById(@RequestParam int id) {
         Optional<BookItem> optionalBookItem = bookItemRepository.findById(id);
         if (!optionalBookItem.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
         }
 
         BookItem bookItem = optionalBookItem.get();
         bookItem.setStatus(BORROWED);
+        bookItemRepository.save(bookItem);
+        return new ResponseEntity<>("Updated", HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/return")
+    public @ResponseBody
+    ResponseEntity<String> returnBookById(@RequestParam int id) {
+        Optional<BookItem> optionalBookItem = bookItemRepository.findById(id);
+        if (!optionalBookItem.isPresent()) {
+            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+        }
+
+        BookItem bookItem = optionalBookItem.get();
+        bookItem.setStatus(STOCK);
         bookItemRepository.save(bookItem);
         return new ResponseEntity<>("Updated", HttpStatus.OK);
     }
