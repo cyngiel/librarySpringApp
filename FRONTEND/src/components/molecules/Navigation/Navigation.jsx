@@ -46,6 +46,14 @@ export const Navigation = () => {
 					Admin books
 				</NavLink>
 				<NavLink
+					to='/reserved-book'
+					className={({ isActive }) =>
+						isActive ? styles.active : styles.inactive
+					}
+				>
+					Reserved
+				</NavLink>
+				<NavLink
 					to='/sign-in'
 					className={({ isActive }) =>
 						isActive ? styles.active : styles.inactive

@@ -20,6 +20,7 @@ export const AdminBook = ({
 			<p className={styles.bookDate}>{deadline}</p>
 			<p className={styles.bookStatus}>{bookStatus}</p>
 			<div className={styles.buttons}>
+				<button className={styles.button}>Add</button>
 				<button className={styles.button}>Rezrw</button>
 				<button className={styles.button}>Wypo</button>
 				<button className={styles.button}>Odda</button>

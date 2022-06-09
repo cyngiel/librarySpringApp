@@ -43,7 +43,7 @@ export const AddBookView = () => {
 					items: Number(data.items),
 				})
 			})
-			console.log('Zwrotka', res)
+			console.log('Zwrotka', await res.text())
 		}) ()
 	};
 

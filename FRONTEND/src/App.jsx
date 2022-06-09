@@ -9,6 +9,7 @@ import { AddBookView } from './views/AddBookView/AddBookView'
 import { SignInSignUpView } from './views/SignInSignUpView/SignInSignUpView';
 import { UserBooksView } from './views/UserBooksView/UserBooksView';
 import { AdminBooksView } from './views/AdminBooksView/AdminBooksView';
+import { ReservedBooks } from './views/ReservedBooksView/ReservedBooks';
 
 
 
@@ -25,6 +26,7 @@ function App() {
 					<Route path='/sign-in' element={<SignInSignUpView />} />
 					<Route path='/user-book-list' element={<UserBooksView />} />
 					<Route path='/admin-book-list' element={<AdminBooksView />} />
+					<Route path='/reserved-book' element={<ReservedBooks />} />
 				</Routes>
 			</Main>
 		</>
