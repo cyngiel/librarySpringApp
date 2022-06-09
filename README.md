@@ -185,14 +185,14 @@ Need to pass book_id as a parameter!
 ```http
   POST /book/reserve?id=3
 ```
-Need to pass id of the book as a parameter!
+Need to pass id of the BOOK as a parameter!
 
 ### Borrow a book item (unique copy of the book)
 
 ```http
   POST /book/borrow?id=3
 ```
-Need to pass id of the book as a parameter!
+Need to pass id of the BOOK ITEM as a parameter!
 
 ### Add a news
 
