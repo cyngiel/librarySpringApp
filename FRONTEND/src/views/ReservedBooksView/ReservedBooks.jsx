@@ -1,9 +1,9 @@
-import styles from './BooksList.module.scss';
-import { BookItem } from '../BookItem/BookItem';
-import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { BookItemReserved } from '../../components/organisms/BookItemReserved/BookItemReserved';
+import styles from './ReservedBooksView.module.scss'
 
-export const BooksList = () => {
+export const ReservedBooks = () => {
 	const { seatchWord } = useSelector((state) => state.search);
 	const [booksList, setBookList] = useState([]);
 
@@ -26,7 +26,7 @@ export const BooksList = () => {
 				{booksList
 					.filter((book) => book.title.includes(seatchWord))
 					.map(({ book_id, title, author, stockItemsCount, items}) => (
-						<BookItem
+						<BookItemReserved
 							key={book_id}
 							id={book_id}
 							title={title}
