@@ -172,7 +172,6 @@ body parameters:
 | `publishing_house` | `string`  |**Required**.    |
 | `description` | `string`       |**Required**.    |
 | `catalog_number` | `string`    |**Required**.    |
-| `items` | `int` | **Required**.  |
 
 ### Add a book item (unique copy of the book)
 
