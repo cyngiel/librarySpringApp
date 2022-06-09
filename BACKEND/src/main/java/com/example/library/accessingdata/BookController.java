@@ -35,6 +35,20 @@ public class BookController {
         return new ResponseEntity<>("saved", HttpStatus.CREATED);
     }
 
+    @PostMapping(path = "/add/item")
+    public @ResponseBody
+    ResponseEntity<String> addNewBookItem(@RequestParam int book_id) {
+        Optional<Book> book = bookRepository.findById(book_id);
+
+        if (!book.isPresent()) {
+            return new ResponseEntity<>("book_id= " + book_id + " does not exists!", HttpStatus.NO_CONTENT);
+        }
+        BookItem bookItem = new BookItem();
+        bookItem.setBook(book.get());
+        bookItemRepository.save(bookItem);
+        return new ResponseEntity<>("saved", HttpStatus.OK);
+    }
+
     @GetMapping(path = "/all")
     public @ResponseBody
     ResponseEntity<Iterable<BookOverallInfo>> getAllBooks() {
@@ -150,5 +164,30 @@ public class BookController {
                 .book_item_id(bookItem.getBook_item_id())
                 .status(bookItem.getStatus().name())
                 .build();
+    }
+
+    @DeleteMapping(path = "/delete/book")
+    public @ResponseBody
+    ResponseEntity<String> deleteBook(int bookId) {
+        if (!bookRepository.findById(bookId).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            bookRepository.deleteById(bookId);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/delete/item")
+    public @ResponseBody
+    ResponseEntity<String> deleteBookItem(int id) {
+        Optional<BookItem> bookItem = bookItemRepository.findById(id);
+        if (!bookItem.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        bookItemRepository.deleteById(bookItem.get().getBook_item_id());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
