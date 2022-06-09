@@ -87,6 +87,8 @@ public class BookController {
                 .author(book.getAuthor())
                 .category(book.getCategory())
                 .items(book.getItems())
+                .publish_year(book.getPublish_year())
+                .description(book.getDescription())
                 .stockItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(STOCK)).count())
                 .borrowedItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(BORROWED)).count())
                 .reservedItemsCount((int) book.getBookItems().stream().filter(bookItem -> bookItem.getStatus().equals(RESERVED)).count())
