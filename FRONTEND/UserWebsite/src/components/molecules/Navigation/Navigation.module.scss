@@ -1,0 +1,36 @@
+.navMenuWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.navMenuList {
+  display: flex;
+}
+
+.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  width: 150px;
+  height: 25px;
+  background-color: rgba(#2daaff, 0.5);
+  border: 3px solid rgba(#2daaff, 1);
+  border-radius: 12.5px;
+  margin: 0 10px;
+}
+
+.inactive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  width: 150px;
+  height: 25px;
+  background-color: rgba(#2daaff, 1.0);
+  color: black;
+  border-radius: 12.5px;
+  margin: 0 10px;
+}
