@@ -68,6 +68,13 @@ CREATE TABLE library.borrowing
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
+CREATE TABLE library.news
+(
+	news_id		        INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    title               VARCHAR(50) NOT NULL,    
+    content             VARCHAR(1000), 
+);
+
 
 #########################################################
 #########################################################
