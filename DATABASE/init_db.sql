@@ -72,7 +72,7 @@ CREATE TABLE library.news
 (
 	news_id		        INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
     title               VARCHAR(50) NOT NULL,    
-    content             VARCHAR(1000), 
+    content             VARCHAR(1000)
 );
 
 
