@@ -1,0 +1,21 @@
+.barChart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 80%;
+  height: calc(95%);
+  margin: 0 auto;
+  overflow-y: auto;
+}
+
+.internalTable {
+  width: 35%;
+  height: 400px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+}

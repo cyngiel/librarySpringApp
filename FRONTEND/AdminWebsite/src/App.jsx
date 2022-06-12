@@ -10,7 +10,8 @@ import { AdminBooksList } from './views/AdminBooksListView/AdminBooksList';
 import { AdminBookReservedView } from './views/AdminBookReservedView/AdminBookReservedView';
 import { AdminBookBorrowedView } from './views/AdminBookBorrowedView/AdminBookBorrowedView';
 import { AdminAddNewsView } from './views/AdminAddNewsView/AdminAddNewsView';
-
+import { AdminChartsView } from './views/AdminChartsView/AdminChartsView';
+// import { Doughnut } from 'react-chartjs-2';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 					<Route path='/admin-books-list' element={<AdminBooksList />} />
 					<Route path='/admin-books-reserved' element={<AdminBookReservedView />} />
 					<Route path='/admin-books-borrowed' element={<AdminBookBorrowedView />} />
+					<Route path='/admin-charts' element={<AdminChartsView />} />
 				</Routes>
 			</Main>
 		</>

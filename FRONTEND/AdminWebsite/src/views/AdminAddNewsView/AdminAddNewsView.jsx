@@ -20,7 +20,7 @@ export const AdminAddNewsView = () => {
 
 	const onSubmit = (data) => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/news/all', {
+			const res = await fetch('http://localhost:8080/news/add', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -29,7 +29,6 @@ export const AdminAddNewsView = () => {
 					...data
 				}),
 			});
-			console.log('Zwrotka', await res.text());
 			console.log('Zwrotka', await res.json());
 		})();
 	};

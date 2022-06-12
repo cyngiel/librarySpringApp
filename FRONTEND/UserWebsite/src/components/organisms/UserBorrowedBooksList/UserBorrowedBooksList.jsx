@@ -9,7 +9,7 @@ export const UserBorrowedBooksList = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/book/reserve/all');
+			const res = await fetch('http://localhost:8080/book/borrow/all');
 			const bookData = await res.json();
 			setBookList(bookData);
 		})();
