@@ -1,10 +1,15 @@
 package com.example.library.accessingdata;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +62,11 @@ public class BookController {
                 .stream(allBooks.spliterator(), false)
                 .map(this::mapBookOverallInfo)
                 .collect(Collectors.toList());
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        System.out.println(username);
 
         return new ResponseEntity<>(allBookOverallInfo, HttpStatus.OK);
     }

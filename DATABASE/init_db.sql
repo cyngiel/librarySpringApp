@@ -5,10 +5,9 @@ CREATE SCHEMA library;
 CREATE TABLE library.user
 (
 	user_id             INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-    name                VARCHAR(30) NOT NULL,
-    last_name           VARCHAR(30) NOT NULL,
+    username            VARCHAR(30) NOT NULL,
     email               VARCHAR(30) NOT NULL,
-    password            VARCHAR(30) NOT NULL,
+    password            VARCHAR(100) NOT NULL,
     
     PRIMARY KEY (user_id)
 );
@@ -72,7 +71,9 @@ CREATE TABLE library.news
 (
 	news_id		        INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
     title               VARCHAR(50) NOT NULL,    
-    content             VARCHAR(1000), 
+    content             VARCHAR(1000),
+
+    PRIMARY KEY (news_id)
 );
 
 
@@ -84,5 +85,5 @@ insert into library.book (title, author, category, publish_year, publishing_hous
 values ("Harry Potter i Kamień Filozoficzny", "J.K. Rowling", "Fantasy", 2016, "Media Rodzina", "9788380084322", 0, 
     "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich 11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia.");
 
-insert into library.user (name, last_name, email, password)
-values ("Jan", "Kowalski", "jan.kowalski@example.com", "haslo123");
+insert into library.user (username, email, password)
+values ("Jan", "jan.kowalski@example.com", "haslo123");

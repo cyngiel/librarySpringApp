@@ -14,18 +14,6 @@ public class UsersController {
     @Autowired
     UsersRepository usersRepository;
 
-    @PostMapping(path = "/signup")
-    public @ResponseBody
-    ResponseEntity<String> addUser(@RequestBody User user) {
-        usersRepository.save(user);
-        return new ResponseEntity<>("saved", HttpStatus.CREATED);
-    }
 
-    @PostMapping(path = "/login")
-    public @ResponseBody
-    ResponseEntity<String> loginUser(@RequestBody User user) {
-        usersRepository.save(user);
-        return new ResponseEntity<>("saved", HttpStatus.CREATED);
-    }
 
 }
