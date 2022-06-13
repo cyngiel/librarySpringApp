@@ -5,13 +5,21 @@ export const Navigation = () => {
 	return (
 		<nav className={styles.navMenuWrapper}>
 			<ul className={styles.navMenuList}>
-				<NavLink
+				{/* <NavLink
 					to='/'
 					className={({ isActive }) =>
 						isActive ? styles.active : styles.inactive
 					}
 				>
 					Home
+				</NavLink> */}
+				<NavLink
+					to='/admin-charts'
+					className={({ isActive }) =>
+						isActive ? styles.active : styles.inactive
+					}
+				>
+					Data charts 
 				</NavLink>
 				<NavLink
 					to='/add-news'

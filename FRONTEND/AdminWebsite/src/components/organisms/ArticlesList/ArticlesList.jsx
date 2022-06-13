@@ -11,7 +11,7 @@ export const ArticlesList = () => {
 			const res = await fetch('http://localhost:8080/news/all');
 			const articleData = await res.json();
 			setArticles(articleData);
-			console.log(articleData);
+
 		})();
 	}, []);
 
