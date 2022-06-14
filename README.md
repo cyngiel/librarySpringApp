@@ -2,9 +2,11 @@
 
 A library rest spring app
 
+
 <hr>
 
 ## Setup
+
 
 ## Database
 
@@ -48,11 +50,14 @@ run the spring app and ping
 
 should recive "pong"
 
+
 <hr>
 
 
 ## API endpoints 
 ### Get list of all books
+=======
+
 ```http
   GET /book/all
 ```
@@ -61,6 +66,7 @@ response:
 ```JSON
   [
     {
+
         "book_id": 5,
         "title": "Test Title",
         "author": "Test Author",
@@ -103,6 +109,45 @@ response:
 
 ```
 
+### Register user
+```http
+  POST /register
+```
+
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `username`   | `string` | **Required**.      |
+| `email`  | `string` | **Required**.     |
+| `password`  | `string` | **Required**.     |
+
+### Authenticate user
+```http
+  POST /authenticate
+```
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `username`   | `string` | **Required**.      |
+| `password`  | `string` | **Required**.     |
+
+response JWT:
+
+```JSON
+{
+    "token": "eyJhbGciOiJ... ... o8aukg"
+}
+```
+
+
+<hr>
+### All of the following endpoints have to contain Authorization header with JWT!
+
+
 ### Get list of all RESERVED books
 ```http
   GET /book/reserve/all
@@ -125,9 +170,11 @@ response:
     }, 
     { 
     ...
+
     }
 ]
 ```
+
 
 
 ### Get list of all BORROWED books
@@ -158,10 +205,13 @@ response:
 
 ### Add a book
 
+
 ```http
   POST /book/add
 ```
+
 body parameters:
+
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
@@ -172,6 +222,7 @@ body parameters:
 | `publishing_house` | `string`  |**Required**.    |
 | `description` | `string`       |**Required**.    |
 | `catalog_number` | `string`    |**Required**.    |
+
 
 ### Add a book item (unique copy of the book)
 
@@ -252,6 +303,7 @@ response:
 
 
 
+
 ### library.book_item
 
 | Parameter | Type     | Description                |
@@ -278,6 +330,7 @@ response:
 | `content` | `string` | |
 
 ### library.user
+
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
