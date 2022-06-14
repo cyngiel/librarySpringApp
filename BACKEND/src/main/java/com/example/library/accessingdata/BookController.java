@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 
 import static com.example.library.accessingdata.BookItemStatus.*;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "/book")
 public class BookController {
