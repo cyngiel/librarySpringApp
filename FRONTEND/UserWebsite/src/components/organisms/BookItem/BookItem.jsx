@@ -6,6 +6,9 @@ export const BookItem = ({ id, title, author, availability, items, category, set
 	const handleReservedBook = async () => {
 		await fetch(`http://localhost:8080/book/reserve?id=${id}`, {
 			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+			},
 		});
 		setCount()
 	};
