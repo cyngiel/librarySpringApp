@@ -55,8 +55,46 @@ should recive "pong"
 
 
 ## API endpoints 
+
+### Register user
+```http
+  POST /register
+```
+
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `username`   | `string` | **Required**.      |
+| `email`  | `string` | **Required**.     |
+| `password`  | `string` | **Required**.     |
+
+### Authenticate user
+```http
+  POST /authenticate
+```
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `username`   | `string` | **Required**.      |
+| `password`  | `string` | **Required**.     |
+
+response JWT:
+
+```JSON
+{
+    "token": "eyJhbGciOiJ... ... o8aukg"
+}
+```
+
+<hr>
+All of the following endpoints have to contain Authorization header with JWT!
+<hr>
+
 ### Get list of all books
-=======
 
 ```http
   GET /book/all
@@ -108,44 +146,6 @@ response:
 }
 
 ```
-
-### Register user
-```http
-  POST /register
-```
-
-body parameters:
-
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `username`   | `string` | **Required**.      |
-| `email`  | `string` | **Required**.     |
-| `password`  | `string` | **Required**.     |
-
-### Authenticate user
-```http
-  POST /authenticate
-```
-body parameters:
-
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `username`   | `string` | **Required**.      |
-| `password`  | `string` | **Required**.     |
-
-response JWT:
-
-```JSON
-{
-    "token": "eyJhbGciOiJ... ... o8aukg"
-}
-```
-
-
-<hr>
-### All of the following endpoints have to contain Authorization header with JWT!
 
 
 ### Get list of all RESERVED books
