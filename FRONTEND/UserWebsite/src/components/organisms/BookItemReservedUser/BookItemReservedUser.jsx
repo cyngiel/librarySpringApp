@@ -13,6 +13,9 @@ export const BookItemReservedUser = ({
 	const handleUnreservedBook = async () => {
 		await fetch(`http://localhost:8080/book/return?id=${bookItemId}`, {
 			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+			},
 		});
 		setCount();
 	};

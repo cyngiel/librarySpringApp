@@ -12,7 +12,12 @@ export const AdminBooksList = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/book/all');
+			const res = await fetch('http://localhost:8080/book/all', {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
 			const bookData = await res.json()
 			setBookList(bookData)
 		})()

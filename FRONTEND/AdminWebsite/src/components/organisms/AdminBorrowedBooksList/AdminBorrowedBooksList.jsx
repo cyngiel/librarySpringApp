@@ -11,7 +11,12 @@ export const AdminBorrowedBooksList = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/book/borrow/all');
+			const res = await fetch('http://localhost:8080/book/borrow/all', {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
 			const bookData = await res.json()
 			setBookList(bookData)
 		})()

@@ -14,6 +14,9 @@ export const BookItemReservedAdmin = ({
 			`http://localhost:8080/book/borrow?id=${bookItemId}`,
 			{
 				method: 'POST',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+				},
 			}
 		);
 		setCount()
