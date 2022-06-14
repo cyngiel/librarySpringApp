@@ -39,7 +39,6 @@ export const AddBookView = () => {
 					publish_year: Number(data.publish_year),
 				})
 			})
-			console.log('Zwrotka', await res.text())
 			console.log('Zwrotka', await res.json())
 		}) ()
 	};
