@@ -6,34 +6,39 @@ export const SingleBookView = () => {
 	const { id } = useParams();
 	const [countState, setCountState] = useState(false);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const handleState = useCallback(() => setCountState(prev => !prev))
+	const handleState = useCallback(() => setCountState((prev) => !prev));
 
-	
 	const [singleBook, setSingleBook] = useState({
-		title: '', 
-		author: '', 
-		category: '', 
-		publish_year: 0, 
+		title: '',
+		author: '',
+		category: '',
+		publish_year: 0,
 		description: '',
-		available_items: 0, 
-		items: 0
+		available_items: 0,
+		items: 0,
 	});
 
-
-	useEffect( () => 
-	{
-		( async () => {
-			const res = await fetch(`http://localhost:8080/book/id?id=${id}`)
-			const data = await res.json()
-			setSingleBook(data)
-		}) ()
-	}, [id, countState])
+	useEffect(() => {
+		(async () => {
+			const res = await fetch(`http://localhost:8080/book/id?id=${id}`, {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
+			const data = await res.json();
+			setSingleBook(data);
+		})();
+	}, [id, countState]);
 
 	const handleReservedBook = async () => {
 		await fetch(`http://localhost:8080/book/reserve?id=${id}`, {
 			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+			},
 		});
-		handleState()
+		handleState();
 	};
 
 	return (

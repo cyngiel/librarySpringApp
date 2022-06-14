@@ -9,7 +9,12 @@ export const UserBorrowedBooksList = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/book/borrow/all');
+			const res = await fetch('http://localhost:8080/book/borrow/all', {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
 			const bookData = await res.json();
 			setBookList(bookData);
 		})();
@@ -29,13 +34,13 @@ export const UserBorrowedBooksList = () => {
 				{booksList
 					.filter((book) => book.title.includes(seatchWord))
 					.map(({ book_item_id, title, author, category, publish_year }) => (
-						<BookItemBorrowedUser 
-						key={book_item_id}
-						bookTitle={title}
-						bookAuthor={author}
-						bookCategory={category}
-						reservationDate={publish_year}
-						deadline={publish_year}
+						<BookItemBorrowedUser
+							key={book_item_id}
+							bookTitle={title}
+							bookAuthor={author}
+							bookCategory={category}
+							reservationDate={publish_year}
+							deadline={publish_year}
 						/>
 					))}
 			</ul>

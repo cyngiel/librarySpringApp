@@ -15,17 +15,42 @@ export const SignInSignUpView = () => {
 
 	const onSubmit = (data) => {
 		console.log('submit', data);
+		if (!isLogIn) {
+			(async () => {
+				const res = await fetch('http://localhost:8080/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+				console.log(await res.text());
+			})();
+		} else {
+			(async () => {
+				const res = await fetch('http://localhost:8080/authenticate', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+				const resdata = await res.json();
+				console.log(resdata.token)
+				localStorage.setItem('Authorization', resdata.token)
+			})();
+		}
 	};
 
-	const loginValidate = {
+	const userNameValidate = {
 		required: 'Name is required',
 		minLength: {
 			value: 3,
-			message: 'Login must contain at least 3 characters',
+			message: 'User name must contain at least 3 characters',
 		},
 		maxLength: {
 			value: 30,
-			message: 'Login must not contain more than 30 characters',
+			message: 'User name must not contain more than 30 characters',
 		},
 	};
 	const passwordValidate = {
@@ -59,11 +84,11 @@ export const SignInSignUpView = () => {
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<Input
 					type='text'
-					name='login'
-					label='Login'
+					name='username'
+					label='Username'
 					register={register}
-					validationFunction={loginValidate}
-					errors={errors.login}
+					validationFunction={userNameValidate}
+					errors={errors.username}
 				/>
 				<Input
 					type='password'
