@@ -1,0 +1,39 @@
+.listWrapper {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.bookList {
+  width: 100%;
+  background-color: #ddd;
+
+}
+
+.bookItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 10px 0 10px 10px;
+
+  &:nth-of-type(2n-1) {
+    background-color: #777;
+  }
+}
+
+.bookTitle,
+.bookAuthor,
+.bookDate,
+.bookStatus {
+  font-weight: bold;
+}
+
+.bookDate,
+.bookStatus {
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+}

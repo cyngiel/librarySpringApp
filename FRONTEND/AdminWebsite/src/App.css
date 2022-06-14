@@ -1,0 +1,27 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+body{
+  background: linear-gradient(90deg, rgba(51,51,51,1) 1000%, rgba(68,68,68,1) 50%, rgba(85,85,85,1) 0%);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #FFF;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(#000000, 0.5) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,44 @@
+.listWrapper {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.bookList {
+  width: 100%;
+  background-color: #ddd;
+}
+
+.bookItem,
+.bookItemHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr ;
+}
+
+.bookItemHeader {
+  background-color: #777;
+  font-weight: 700;
+  padding: 10px 0 10px 10px;
+}
+
+.bookDate {
+  width: 100px;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.bookAvailability {
+  width: 100px;
+  text-align: center;
+}
+
+.bookBtns {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  width: 100px;
+  margin: 0 10px;
+  border-radius: 10px;
+
+}

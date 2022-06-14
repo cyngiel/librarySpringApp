@@ -3,6 +3,10 @@
 A library rest spring app
 
 
+<hr>
+
+## Setup
+
 
 ## Database
 
@@ -47,8 +51,13 @@ run the spring app and ping
 should recive "pong"
 
 
-## API Reference
-#### Get list of all books
+<hr>
+
+
+## API endpoints 
+### Get list of all books
+=======
+
 ```http
   GET /book/all
 ```
@@ -57,26 +66,152 @@ response:
 ```JSON
   [
     {
-        "book_id": 1,
-        "title": "tytuł",
-        "author": "autor",
-        "category": "kategoria",
-        "publish_year": 2022,
-        "publishing_house": "wydawnictwo",
-        "description": "opis opis opis opis",
-        "catalog_number": "12345678",
-        "items": 5,
-        "available_items": 2
+
+        "book_id": 5,
+        "title": "Test Title",
+        "author": "Test Author",
+        "category": "Test Category",
+        "items": 0,
+        "stockItemsCount": 0,
+        "borrowedItemsCount": 0,
+        "reservedItemsCount": 0
+    }, 
+    { 
+    ...
     }
 ]
 ```
 
-#### Add a book
+### Get book by ID
+Need to pass id as a parameter!
+```http
+  GET /book/id?id=1
+```
+
+response:
+
+```JSON
+ 
+{
+    "book_id": 3,
+    "title": "Test Title",
+    "author": "Test Author",
+    "category": "Test Category",
+    "publish_year": 0,
+    "publishing_house": null,
+    "description": null,
+    "catalog_number": null,
+    "items": 2,
+    "stockItemsCount": 2,
+    "borrowedItemsCount": 0,
+    "reservedItemsCount": 0
+}
+
+```
+
+### Register user
+```http
+  POST /register
+```
+
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `username`   | `string` | **Required**.      |
+| `email`  | `string` | **Required**.     |
+| `password`  | `string` | **Required**.     |
+
+### Authenticate user
+```http
+  POST /authenticate
+```
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `username`   | `string` | **Required**.      |
+| `password`  | `string` | **Required**.     |
+
+response JWT:
+
+```JSON
+{
+    "token": "eyJhbGciOiJ... ... o8aukg"
+}
+```
+
+
+<hr>
+### All of the following endpoints have to contain Authorization header with JWT!
+
+
+### Get list of all RESERVED books
+```http
+  GET /book/reserve/all
+```
+response:
+
+```JSON
+  [
+    {
+        "book_id": 1,
+        "title": "Test Title",
+        "author": "Test Author",
+        "category": "Test Category",
+        "publish_year": 2016,
+        "publishing_house": "Test Publishing House",
+        "catalog_number": "9788380084322",
+        "items": 4,
+        "book_item_id": 2,
+        "status": "RESERVED"
+    }, 
+    { 
+    ...
+
+    }
+]
+```
+
+
+
+### Get list of all BORROWED books
+```http
+  GET /book/borrow/all
+```
+response:
+
+```JSON
+  [
+    {
+        "book_id": 3,
+        "title": "Test Title",
+        "author": "Test Author",
+        "category": "Test Category",
+        "publish_year": 2015,
+        "publishing_house": "Test Publishing House",
+        "catalog_number": "7701",
+        "items": 2,
+        "book_item_id": 5,
+        "status": "BORROWED"
+    }, 
+    { 
+    ...
+    }
+]
+```
+
+### Add a book
+
 
 ```http
   POST /book/add
 ```
-parameters:
+
+body parameters:
+
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
@@ -87,15 +222,76 @@ parameters:
 | `publishing_house` | `string`  |**Required**.    |
 | `description` | `string`       |**Required**.    |
 | `catalog_number` | `string`    |**Required**.    |
-| `items` | `int` | **Required**.  |
 
 
-## Database LIBRARY schema
+### Add a book item (unique copy of the book)
 
-#### library.book
+```http
+  POST /book/add/item?book_id=3
+```
+Need to pass book_id as a parameter!
+
+### Reserve a book item (unique copy of the book)
+
+```http
+  POST /book/reserve?id=3
+```
+Need to pass id of the BOOK as a parameter!
+
+### Borrow a book item (unique copy of the book)
+
+```http
+  POST /book/borrow?id=3
+```
+Need to pass id of the BOOK ITEM as a parameter!
+
+### Return a book item (unique copy of the book)
+
+```http
+  POST /book/return?id=3
+```
+Need to pass id of the BOOK ITEM as a parameter!
+
+### Add a news
+
+```http
+  POST /news/add
+```
+parameters:
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
+| `title`   | `string` | **Required**.      |
+| `content`  | `string` |     |
+
+### Get list of all news
+
+```http
+  POST /news/all
+```
+response:
+
+```JSON
+  [
+    {
+        "news_id": 7,
+        "title": "test news",
+        "content": "content content content"
+    },
+    { 
+    ...
+    }
+]
+```
+<hr>
+
+## Database LIBRARY schema
+
+### library.book
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `book_id` | `int` | **NOT NULL**, *AUTO_INCREMENT*. *PRIMARY_KEY* |
 | `title`   | `string` | **NOT NULL**.      |
 | `author`  | `string` | **NOT NULL**.     |
 | `category` | `string` | **NOT NULL**.   |
@@ -104,28 +300,37 @@ parameters:
 | `description` | `string`       |    |
 | `catalog_number` | `string`    |    |
 | `items` | `int` | **NOT NULL**.  |
-| `available_items` | `int` | **NOT NULL**.  |
-| `book_id` | `int` | **NOT NULL**, *AUTO_INCREMENT*. |
 
 
-#### library.book_item
+
+
+### library.book_item
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `book_item_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*.  |
+| `book_item_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*.  *PRIMARY_KEY* |
 | `status` | `string` | **NOT NULL** |
 | `book_id` | `int` | **NOT NULL**, *FOREGIN_KEY*. |
 
-#### library.borrowing
+### library.borrowing
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `borrowing_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*.  |
-| `date` | `date` | **NOT NULL** |
-| `user_id` | `int` | **NOT NULL**, *FOREGIN_KEY*. |
+| `borrowing_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*. *PRIMARY_KEY* |
+| `status` | `string` | **NOT NULL** |
+| `user_id` | `int` |**NOT NULL**, *FOREGIN_KEY*. |
 | `book_item_id`   | `int` | **NOT NULL**. *FOREGIN_KEY*.  |
 
-#### library.user
+### library.news
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `news_id`   | `int` | **NOT NULL**. *AUTO_INCREMENT*. *PRIMARY_KEY*  |
+| `title` | `string` | **NOT NULL** |
+| `content` | `string` | |
+
+### library.user
+
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
