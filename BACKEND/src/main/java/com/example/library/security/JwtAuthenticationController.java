@@ -39,6 +39,22 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    @RequestMapping(value = "/authenticate_admin", method = RequestMethod.POST)
+    public ResponseEntity<?> createAuthenticationAdminToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+        if(authenticationRequest.getUsername().equals("admin")){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
 //        return ResponseEntity.ok(userDetailsService.save(user));

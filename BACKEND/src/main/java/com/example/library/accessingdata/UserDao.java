@@ -1,12 +1,14 @@
 package com.example.library.accessingdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,5 +24,13 @@ public class UserDao {
     private String email;
     @JsonIgnore
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Borrowing> borrowings;
+
+    @JsonManagedReference
+    public List<Borrowing> getBorrowings(){
+        return borrowings;
+    }
 
 }
