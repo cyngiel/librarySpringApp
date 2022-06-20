@@ -42,7 +42,7 @@ public class JwtAuthenticationController {
     @RequestMapping(value = "/authenticate_admin", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationAdminToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-        if(authenticationRequest.getUsername().equals("admin")){
+        if(!authenticationRequest.getUsername().equals("admin")){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
