@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -63,6 +61,40 @@ public class BookController {
         Iterable<Book> allBooks = bookRepository.findAll();
         List<BookOverallInfo> allBookOverallInfo = StreamSupport
                 .stream(allBooks.spliterator(), false)
+                .map(this::mapBookOverallInfo)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(allBookOverallInfo, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/search")
+    public @ResponseBody
+    ResponseEntity<Iterable<BookOverallInfo>> getSearchBooks(@RequestBody SearchField field) {
+        Iterable<Book> allBooks = bookRepository.findAll();
+        List<String> words = Arrays.asList(field.getText().toLowerCase(Locale.ROOT).split("\\s+"));
+        HashSet<Book> searchedBooks = new HashSet<>();
+
+        for (Book book : allBooks) {
+            String[] title = book.getTitle().split("\\s+");
+            for (String word : title) {
+                if (words.contains(word.toLowerCase(Locale.ROOT))) {
+                    searchedBooks.add(book);
+                    break;
+                }
+            }
+
+            String[] author = book.getAuthor().split("\\s+");
+            for (String word : author) {
+                if (words.contains(word.toLowerCase(Locale.ROOT))) {
+                    searchedBooks.add(book);
+                    break;
+                }
+            }
+        }
+
+
+        List<BookOverallInfo> allBookOverallInfo = StreamSupport
+                .stream(searchedBooks.spliterator(), false)
                 .map(this::mapBookOverallInfo)
                 .collect(Collectors.toList());
 
@@ -161,7 +193,7 @@ public class BookController {
                     .stream(allBooks.spliterator(), false)
                     .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
                     .map(this::mapReservedBooks)
-                    .collect(Collectors.toList()); 
+                    .collect(Collectors.toList());
 
             return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
         }
