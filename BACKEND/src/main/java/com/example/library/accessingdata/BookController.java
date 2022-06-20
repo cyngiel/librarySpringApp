@@ -1,16 +1,15 @@
 package com.example.library.accessingdata;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +27,10 @@ public class BookController {
     private BookItemRepository bookItemRepository;
     @Autowired
     private NewsRepository newsRepository;
+    @Autowired
+    private BorrowingsRepository borrowingsRepository;
+    @Autowired
+    private UsersRepository usersRepository;
 
     @PostMapping(path = "/add")
     public @ResponseBody
@@ -62,11 +65,6 @@ public class BookController {
                 .stream(allBooks.spliterator(), false)
                 .map(this::mapBookOverallInfo)
                 .collect(Collectors.toList());
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        String username = userDetails.getUsername();
-        System.out.println(username);
 
         return new ResponseEntity<>(allBookOverallInfo, HttpStatus.OK);
     }
@@ -112,7 +110,11 @@ public class BookController {
         if (!book.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<BookItem> optionalBookItem = book.get().getBookItems().stream().filter(item -> item.getStatus().equals(STOCK)).findFirst();
+        Optional<BookItem> optionalBookItem = book.get()
+                .getBookItems()
+                .stream()
+                .filter(item -> item.getStatus().equals(STOCK))
+                .findFirst();
         if (!optionalBookItem.isPresent()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -120,13 +122,55 @@ public class BookController {
         BookItem bookItem = optionalBookItem.get();
         bookItem.setStatus(RESERVED);
         bookItemRepository.save(bookItem);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        UserDao user = usersRepository.findByUsername(username);
+
+        Borrowing borrowing = new Borrowing();
+        borrowing.setBookItem(bookItem);
+        borrowing.setUser(user);
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        borrowing.setDate(dtf.format(now));
+
+        borrowingsRepository.save(borrowing);
+
         return new ResponseEntity<>("Updated", HttpStatus.OK);
     }
 
     @GetMapping(path = "/reserve/all")
     public @ResponseBody
     ResponseEntity<Iterable<BookItemExtended>> getAllReservedBooks() {
-        Iterable<BookItem> allBooks = bookItemRepository.findAll();
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        UserDao user = usersRepository.findByUsername(username);
+
+
+        if (username.equals("admin")) {
+            Iterable<BookItem> allBooks = bookItemRepository.findAll();
+
+            List<BookItemExtended> reservedBooks = StreamSupport
+                    .stream(allBooks.spliterator(), false)
+                    .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                    .map(this::mapReservedBooks)
+                    .collect(Collectors.toList()); 
+
+            return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
+        }
+
+        ArrayList<BookItem> allBooks = new ArrayList<>();
+        Iterable<Borrowing> allBorrowings = user.getBorrowings();
+
+        allBorrowings.forEach(borrowing -> allBooks.add(borrowing.getBookItem()));
+
         List<BookItemExtended> reservedBooks = StreamSupport
                 .stream(allBooks.spliterator(), false)
                 .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
@@ -147,6 +191,18 @@ public class BookController {
         BookItem bookItem = optionalBookItem.get();
         bookItem.setStatus(BORROWED);
         bookItemRepository.save(bookItem);
+
+        Iterable<Borrowing> allBorrowings = borrowingsRepository.findAll();
+
+        Borrowing borrowing = StreamSupport.stream(allBorrowings.spliterator(), false)
+                .filter(b -> b.getBookItem().getBook_item_id() == id).collect(Collectors.toList()).get(0);
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        borrowing.setDate(dtf.format(now));
+        borrowingsRepository.save(borrowing);
+
         return new ResponseEntity<>("Updated", HttpStatus.OK);
     }
 
@@ -167,7 +223,32 @@ public class BookController {
     @GetMapping(path = "/borrow/all")
     public @ResponseBody
     ResponseEntity<Iterable<BookItemExtended>> getAllBorrowedBooks() {
-        Iterable<BookItem> allBooks = bookItemRepository.findAll();
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        UserDao user = usersRepository.findByUsername(username);
+
+
+        if (username.equals("admin")) {
+            Iterable<BookItem> allBooks = bookItemRepository.findAll();
+
+            List<BookItemExtended> reservedBooks = StreamSupport
+                    .stream(allBooks.spliterator(), false)
+                    .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                    .map(this::mapReservedBooks)
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
+        }
+
+        ArrayList<BookItem> allBooks = new ArrayList<>();
+        Iterable<Borrowing> allBorrowings = user.getBorrowings();
+
+        allBorrowings.forEach(borrowing -> allBooks.add(borrowing.getBookItem()));
+
         List<BookItemExtended> reservedBooks = StreamSupport
                 .stream(allBooks.spliterator(), false)
                 .filter(bookItem -> bookItem.getStatus().equals(BORROWED))
