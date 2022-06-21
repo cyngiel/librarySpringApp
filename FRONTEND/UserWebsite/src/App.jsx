@@ -5,12 +5,9 @@ import { HomeView } from './views/HomeView/HomeView';
 import './App.css';
 import { SingleBookView } from './views/SingleBookView/SingleBookView';
 import { SignInSignUpView } from './views/SignInSignUpView/SignInSignUpView';
-
 import { BooksView } from './views/BooksView/BooksView';
 import { UserBookReservedView } from './views/UserBookReservedView/UserBookReservedView';
 import { UserBookBorrowedView } from './views/UserBookBorrowedView/UserBookBorrowedView';
-import { useState } from 'react';
-import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 const AuthenticatedApp = () => {
