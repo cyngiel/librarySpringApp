@@ -305,6 +305,42 @@ public class BookController {
                 .build();
     }
 
+    @GetMapping(path = "/stats")
+    public @ResponseBody
+    ResponseEntity<BookStats> getStats() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        UserDao user = usersRepository.findByUsername(username);
+
+
+        if (!username.equals("admin")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Iterable<BookItem> allBooks = bookItemRepository.findAll();
+        
+        long reserved = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                .count();
+
+        long borrowed = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(BORROWED))
+                .count();
+
+        long stocked = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(STOCK))
+                .count();
+
+        return new ResponseEntity<>(new BookStats((int)stocked, (int)borrowed, (int)reserved), HttpStatus.OK);
+    }
+
     @DeleteMapping(path = "/delete/book")
     public @ResponseBody
     ResponseEntity<String> deleteBook(int bookId) {
