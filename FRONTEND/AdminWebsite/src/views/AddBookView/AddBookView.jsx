@@ -33,6 +33,7 @@ export const AddBookView = () => {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
 				},
 				body: JSON.stringify({
 					...data,

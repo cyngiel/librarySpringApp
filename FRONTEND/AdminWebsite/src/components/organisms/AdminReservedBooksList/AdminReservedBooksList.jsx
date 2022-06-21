@@ -18,7 +18,12 @@ export const AdminReservedBooksList = () => {
 	const handleState = () => setCountState((prev) => !prev);
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/book/reserve/all');
+			const res = await fetch('http://localhost:8080/book/reserve/all', {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
 			const bookData = await res.json();
 			setBookList(bookData);
 		})();

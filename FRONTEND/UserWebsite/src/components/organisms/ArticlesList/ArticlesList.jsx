@@ -8,7 +8,12 @@ export const ArticlesList = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/news/all');
+			const res = await fetch('http://localhost:8080/news/all', {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
 			const articleData = await res.json();
 			setArticles(articleData);
 		})();

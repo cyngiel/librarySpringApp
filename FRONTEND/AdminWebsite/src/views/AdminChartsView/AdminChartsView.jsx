@@ -38,7 +38,12 @@ export const AdminChartsView = () => {
 
 	useEffect(() => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/book/all');
+			const res = await fetch('http://localhost:8080/book/all', {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
 			const data = await res.json();
 			setChartData(data);
 		})();
@@ -55,66 +60,63 @@ export const AdminChartsView = () => {
 	return (
 		<>
 			<h2 className={styles.title}>Status of books in the library </h2>
-      <div className={styles.barChart}>
-			{chartData.length > 0 ? (
-        chartData.map(book => 
-          
-					<div className={styles.internalTable}> 
-            <Bar
-						data={{
-							labels: ['stock', 'reserved', 'borrowed'],
-							datasets: [
-								{
-									label: book.title,
-									data: [
-										book.stockItemsCount,
-										book.reservedItemsCount,
-										book.borrowedItemsCount,
+			<div className={styles.barChart}>
+				{chartData.length > 0 ? (
+					chartData.map((book) => (
+						<div className={styles.internalTable} key={book.book_id}>
+							<Bar
+								data={{
+									labels: ['stock', 'reserved', 'borrowed'],
+									datasets: [
+										{
+											label: book.title,
+											data: [
+												book.stockItemsCount,
+												book.reservedItemsCount,
+												book.borrowedItemsCount,
+											],
+											backgroundColor: ['#FFF'],
+											borderColor: ['rgba(0,0,0,1)'],
+										},
 									],
-									backgroundColor: ['#FFF'],
-									borderColor: ['rgba(0,0,0,1)'],
-								},
-							],
-						}}
-						options={{
-							responsive: true,
-							maintainAspectRatio: false,
-							scales: {
-								yAxes: {
-									grid: {
-										drawBorder: true,
-										color: '#FFFFFF',
+								}}
+								options={{
+									responsive: true,
+									maintainAspectRatio: false,
+									scales: {
+										yAxes: {
+											grid: {
+												drawBorder: true,
+												color: '#FFFFFF',
+											},
+											ticks: {
+												beginAtZero: true,
+												color: 'white',
+												fontSize: 12,
+											},
+										},
+										xAxes: {
+											grid: {
+												drawBorder: true,
+												color: '#FFFFFF',
+											},
+											ticks: {
+												beginAtZero: true,
+												color: 'white',
+												fontSize: 12,
+											},
+										},
 									},
-									ticks: {
-										beginAtZero: true,
-										color: 'white',
-										fontSize: 12,
-									},
-								},
-								xAxes: {
-									grid: {
-										drawBorder: true,
-										color: '#FFFFFF',
-									},
-									ticks: {
-										beginAtZero: true,
-										color: 'white',
-										fontSize: 12,
-									},
-								},
-							},
-						}}
-						height={'400px'}
-						width={'30%'}
-					/>
-          </div>
-
-        )
-				
-			) : (
-				<h3>Empty</h3>
-			)}
-      				</div>
+								}}
+								height={'400px'}
+								width={'30%'}
+							/>
+						</div>
+					))
+				) : (
+					<h3>Empty</h3>
+				)}
+			</div>
 		</>
 	);
 };

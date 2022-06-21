@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/organisms/Header/Header';
 import { Main } from './components/organisms/Main/Main';
-import { HomeView } from './views/HomeView/HomeView';
 import './App.css';
 import { SingleBookView } from './views/SingleBookView/SingleBookView'
 import { AddBookView } from './views/AddBookView/AddBookView'
@@ -20,7 +19,7 @@ function App() {
 			<Header />
 			<Main>
 				<Routes>
-					<Route path='/' element={<HomeView />} />
+					<Route path='/' element={<AdminChartsView />} />
 					<Route path='/books/:id' element={<SingleBookView />} />
 					<Route path='/add-news' element={<AdminAddNewsView />} />
 					<Route path='/add-book' element={<AddBookView />} />
