@@ -1,10 +1,18 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/atoms/Button/Button';
 import { Input } from '../../components/atoms/Input/Input';
+import { addUserStatus } from '../../redux-toolkit/features/user/userSlice';
 import styles from './SignInSignUpView.module.scss';
 
+
 export const SignInSignUpView = () => {
+const navigate = useNavigate()
+
+
+	const dispatch = useDispatch()
 	const [isLogIn, setIsLogIn] = useState(true);
 	const handleChangeOption = () => setIsLogIn((prev) => !prev);
 	const {
@@ -28,7 +36,8 @@ export const SignInSignUpView = () => {
 			})();
 		} else {
 			(async () => {
-				const res = await fetch('http://localhost:8080/authenticate', {
+				try {
+					const res = await fetch('http://localhost:8080/authenticate', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -36,8 +45,14 @@ export const SignInSignUpView = () => {
 					body: JSON.stringify(data),
 				});
 				const resdata = await res.json();
-				console.log(resdata.token)
-				localStorage.setItem('Authorization', resdata.token)
+					console.log('token', resdata.token);
+					localStorage.setItem('Authorization', resdata.token);
+					dispatch(addUserStatus(resdata.token))
+					navigate('/')
+				} catch (error) {
+					console.log('Incorrect login or password ')
+					
+				}
 			})();
 		}
 	};

@@ -13,7 +13,7 @@
   align-items: center;
   color: white;
   text-decoration: none;
-  width: 125px;
+  width: 150px;
   height: 25px;
   background-color: rgba(#2daaff, 0.5);
   border: 3px solid rgba(#2daaff, 1);
@@ -22,15 +22,22 @@
 }
 
 .inactive {
+  font-size: 1rem;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   text-decoration: none;
-  width: 125px;
+  width: 150px;
   height: 25px;
   background-color: rgba(#2daaff, 1.0);
   color: black;
   border-radius: 12.5px;
   margin: 0 10px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: rgba(#2daaff, 0.5);
+  }
 }
