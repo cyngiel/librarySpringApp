@@ -13,7 +13,7 @@ export const Header = () => {
 					</Link>
 					<Navigation />
 				</div>
-				<SearchBookInput />
+				{/* <SearchBookInput /> */}
 			</div>
 		</header>
 	);

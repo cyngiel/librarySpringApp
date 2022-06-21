@@ -12,7 +12,7 @@ export const userSlice = createSlice({
 			console.log('user', action.payload);
 			state.userStatus = action.payload;
 		},
-		removeUserStatus: (state, action) => (state.userStatus = ''),
+		removeUserStatus: (state, action) => {state.userStatus = action.payload},
 	},
 });
 
