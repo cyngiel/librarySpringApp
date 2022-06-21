@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 const AuthenticatedApp = () => {
 	return (
 		<Routes>
-		<Route path='/' element={<AdminChartsView />} />
+		<Route path='/' element={<SignInSignUpView />} />
 		<Route path='/books/:id' element={<SingleBookView />} />
 		<Route path='/add-news' element={<AdminAddNewsView />} />
 		<Route path='/add-book' element={<AddBookView />} />

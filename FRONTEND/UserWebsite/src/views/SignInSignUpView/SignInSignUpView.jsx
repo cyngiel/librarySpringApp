@@ -45,7 +45,6 @@ const navigate = useNavigate()
 					body: JSON.stringify(data),
 				});
 				const resdata = await res.json();
-					console.log('token', resdata.token);
 					localStorage.setItem('Authorization', resdata.token);
 					dispatch(addUserStatus(resdata.token))
 					navigate('/')

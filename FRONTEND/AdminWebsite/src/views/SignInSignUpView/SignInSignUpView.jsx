@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/atoms/Button/Button';
 import { Input } from '../../components/atoms/Input/Input';
@@ -34,7 +34,7 @@ export const SignInSignUpView = () => {
 		} else {
 			(async () => {
 try {
-	const res = await fetch('http://localhost:8080/authenticate', {
+	const res = await fetch('http://localhost:8080/authenticate_admin', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -84,6 +84,8 @@ try {
 		},
 	};
 
+	const { userStatus } = useSelector(state => state.user)
+	if (userStatus) {} 
 	return (
 		<div className={styles.wrapper}>
 			{isLogIn ? (

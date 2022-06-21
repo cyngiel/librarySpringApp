@@ -9,6 +9,22 @@ export const BooksList = () => {
 	const [countState, setCountState] = useState(false);
 	const handleState = () => setCountState((prev) => !prev);
 
+	const searchWords = {text: seatchWord}
+
+if (searchWords.length > 0) {
+		(async () => {
+			const res = await fetch('http://localhost:8080/book/search', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(searchWords)
+			});
+			const bookData = await res.json();
+			setBookList(bookData);
+		})();
+}
+
 	useEffect(() => {
 		(async () => {
 			const res = await fetch('http://localhost:8080/book/all', {

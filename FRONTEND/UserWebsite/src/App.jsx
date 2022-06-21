@@ -36,11 +36,11 @@ const UnauthenticatedApp = () => {
 
 function App() {
 	const { userStatus } = useSelector(state => state.user)
-	console.log('userStatus',userStatus)
+	if (userStatus) {}
 	return (
 		<>
 			<Header />
-			<Main>{userStatus ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Main>
+			<Main>{localStorage.getItem('Authorization') ? <AuthenticatedApp /> : <UnauthenticatedApp />}</Main>
 		</>
 	);
 }

@@ -48,6 +48,19 @@ export const AdminChartsView = () => {
 			setChartData(data);
 		})();
 	}, []);
+// TO PONIŻEJ WYWLA BŁĄD
+	useEffect(() => {
+		(async () => {
+			const res = await fetch('http://localhost:8080/book/stats', {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+				},
+			});
+			const data = await res.json();
+			console.log(data)
+		})();
+	},[])
 
 	if (chartData.length > 0) {
 		console.log(chartData);
