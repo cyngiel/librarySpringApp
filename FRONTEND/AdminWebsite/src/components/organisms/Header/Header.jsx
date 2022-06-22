@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Navigation } from '../../molecules/Navigation/Navigation';
-import { SearchBookInput } from '../../atoms/SearchBookInput/SearchBookInput';
 import styles from './Header.module.scss';
 
 export const Header = () => {
