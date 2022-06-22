@@ -36,6 +36,12 @@ export const AdminChartsView = () => {
 		},
 	]);
 
+	const [overallGraph, setOverallGraph] = useState({
+		borrowed: 0,
+		reserved: 0,
+		stock: 0,
+	});
+
 	useEffect(() => {
 		(async () => {
 			const res = await fetch('http://localhost:8080/book/all', {
@@ -48,7 +54,7 @@ export const AdminChartsView = () => {
 			setChartData(data);
 		})();
 	}, []);
-// TO PONIŻEJ WYWLA BŁĄD
+
 	useEffect(() => {
 		(async () => {
 			const res = await fetch('http://localhost:8080/book/stats', {
@@ -58,9 +64,9 @@ export const AdminChartsView = () => {
 				},
 			});
 			const data = await res.json();
-			console.log(data)
+			setOverallGraph(data);
 		})();
-	},[])
+	}, []);
 
 	if (chartData.length > 0) {
 		console.log(chartData);
@@ -70,65 +76,120 @@ export const AdminChartsView = () => {
 		console.log(chartData[0].borrowedItemsCount);
 	}
 
+	console.log('to ', overallGraph.borrowed);
 	return (
 		<>
-			<h2 className={styles.title}>Status of books in the library </h2>
-			<div className={styles.barChart}>
-				{chartData.length > 0 ? (
-					chartData.map((book) => (
-						<div className={styles.internalTable} key={book.book_id}>
-							<Bar
-								data={{
-									labels: ['stock', 'reserved', 'borrowed'],
-									datasets: [
-										{
-											label: book.title,
-											data: [
-												book.stockItemsCount,
-												book.reservedItemsCount,
-												book.borrowedItemsCount,
-											],
-											backgroundColor: ['#FFF'],
-											borderColor: ['rgba(0,0,0,1)'],
+			<div>
+				<h2 className={styles.firstGraphTitle}>General status of books</h2>
+				<div className={styles.firstGraphwrapper}>
+					<div className={styles.internalTable} key={overallGraph.stock}>
+						<Bar
+							data={{
+								labels: ['stock', 'reserved', 'borrowed'],
+								datasets: [
+									{
+										label: 'Status of books',
+										data: [
+											overallGraph.stock,
+											overallGraph.reserved,
+											overallGraph.borrowed,
+										],
+										backgroundColor: ['#FFF'],
+										borderColor: ['rgba(0,0,0,1)'],
+									},
+								],
+							}}
+							options={{
+								responsive: true,
+								maintainAspectRatio: false,
+								scales: {
+									yAxes: {
+										grid: {
+											drawBorder: true,
+											color: '#FFFFFF',
 										},
-									],
-								}}
-								options={{
-									responsive: true,
-									maintainAspectRatio: false,
-									scales: {
-										yAxes: {
-											grid: {
-												drawBorder: true,
-												color: '#FFFFFF',
-											},
-											ticks: {
-												beginAtZero: true,
-												color: 'white',
-												fontSize: 12,
-											},
-										},
-										xAxes: {
-											grid: {
-												drawBorder: true,
-												color: '#FFFFFF',
-											},
-											ticks: {
-												beginAtZero: true,
-												color: 'white',
-												fontSize: 12,
-											},
+										ticks: {
+											beginAtZero: true,
+											color: 'white',
+											fontSize: 12,
 										},
 									},
-								}}
-								height={'400px'}
-								width={'30%'}
-							/>
-						</div>
-					))
-				) : (
-					<h3>Empty</h3>
-				)}
+									xAxes: {
+										grid: {
+											drawBorder: true,
+											color: '#FFFFFF',
+										},
+										ticks: {
+											beginAtZero: true,
+											color: 'white',
+											fontSize: 12,
+										},
+									},
+								},
+							}}
+							height={'400px'}
+							width={'30%'}
+						/>
+					</div>
+				</div>
+				<h2 className={styles.title}>Status of books in the library </h2>
+				<div className={styles.barChart}>
+					{chartData.length > 0 ? (
+						chartData.map((book) => (
+							<div className={styles.internalTable} key={book.book_id}>
+								<Bar
+									data={{
+										labels: ['stock', 'reserved', 'borrowed'],
+										datasets: [
+											{
+												label: book.title,
+												data: [
+													book.stockItemsCount,
+													book.reservedItemsCount,
+													book.borrowedItemsCount,
+												],
+												backgroundColor: ['#FFF'],
+												borderColor: ['rgba(0,0,0,1)'],
+											},
+										],
+									}}
+									options={{
+										responsive: true,
+										maintainAspectRatio: false,
+										scales: {
+											yAxes: {
+												grid: {
+													drawBorder: true,
+													color: '#FFFFFF',
+												},
+												ticks: {
+													beginAtZero: true,
+													color: 'white',
+													fontSize: 12,
+												},
+											},
+											xAxes: {
+												grid: {
+													drawBorder: true,
+													color: '#FFFFFF',
+												},
+												ticks: {
+													beginAtZero: true,
+													color: 'white',
+													fontSize: 12,
+												},
+											},
+										},
+									}}
+									height={'400px'}
+									width={'30%'}
+								/>
+							</div>
+						))
+					) : (
+						<h3>Empty</h3>
+					)}
+				</div>
 			</div>
 		</>
 	);
