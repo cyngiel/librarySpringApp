@@ -20,13 +20,17 @@ export const BookItemReservedUser = ({
 		setCount();
 	};
 
+	let dateVar = deadline.split('-')
+	dateVar[1] = `0${Number(dateVar[1]) + 1}`
+	dateVar = dateVar.join('-');
+
 	return (
 		<li className={styles.bookItem}>
 			<p className={styles.bookTitle}>{bookTitle}</p>
 			<p className={styles.bookAuthor}>{bookAuthor}</p>
 			<p className={styles.bookCategory}>{bookCategory}</p>
 			<p className={styles.bookDate}>{reservationDate}</p>
-			<p className={styles.bookDate}>{deadline}</p>
+			<p className={styles.bookDate}>{dateVar}</p>
 			<button className={styles.btn} onClick={handleUnreservedBook}>
 				Unreserve
 			</button>
@@ -40,7 +44,7 @@ BookItemReservedUser.propTypes = {
 		bookTitle: PropTypes.string,
 		bookAuthor: PropTypes.string,
 		bookCategory: PropTypes.string,
-		reservationDate: PropTypes.number,
-		deadline: PropTypes.number,
+		reservationDate: PropTypes.string,
+		deadline: PropTypes.string,
 	}),
 };
