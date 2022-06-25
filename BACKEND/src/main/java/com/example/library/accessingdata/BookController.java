@@ -187,11 +187,11 @@ public class BookController {
 
 
         if (username.equals("admin")) {
-            Iterable<BookItem> allBooks = bookItemRepository.findAll();
+            Iterable<Borrowing> allBorowings = borrowingsRepository.findAll();
 
             List<BookItemExtended> reservedBooks = StreamSupport
-                    .stream(allBooks.spliterator(), false)
-                    .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                    .stream(allBorowings.spliterator(), false)
+                    .filter(borrowing -> borrowing.getBookItem().getStatus().equals(RESERVED))
                     .map(this::mapReservedBooks)
                     .collect(Collectors.toList());
 
@@ -265,11 +265,11 @@ public class BookController {
 
 
         if (username.equals("admin")) {
-            Iterable<BookItem> allBooks = bookItemRepository.findAll();
+            Iterable<Borrowing> allBorowings = borrowingsRepository.findAll();
 
             List<BookItemExtended> reservedBooks = StreamSupport
-                    .stream(allBooks.spliterator(), false)
-                    .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                    .stream(allBorowings.spliterator(), false)
+                    .filter(borrowing -> borrowing.getBookItem().getStatus().equals(BORROWED))
                     .map(this::mapReservedBooks)
                     .collect(Collectors.toList());
 
@@ -288,6 +288,22 @@ public class BookController {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
+    }
+
+    private BookItemExtended mapReservedBooks(Borrowing borrowing) {
+        return new BookItemExtended.BookItemExtendedBuilder()
+                .book_id(borrowing.getBookItem().getBook().getBook_id())
+                .title(borrowing.getBookItem().getBook().getTitle())
+                .author(borrowing.getBookItem().getBook().getAuthor())
+                .category(borrowing.getBookItem().getBook().getCategory())
+                .items(borrowing.getBookItem().getBook().getItems())
+                .catalog_number(borrowing.getBookItem().getBook().getCatalog_number())
+                .publish_year(borrowing.getBookItem().getBook().getPublish_year())
+                .publishing_house(borrowing.getBookItem().getBook().getPublishing_house())
+                .book_item_id(borrowing.getBookItem().getBook_item_id())
+                .status(borrowing.getBookItem().getStatus().name())
+                .email(borrowing.getUser().getEmail())
+                .build();
     }
 
     private BookItemExtended mapReservedBooks(BookItem bookItem) {

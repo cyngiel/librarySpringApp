@@ -24,6 +24,7 @@ public class BookItemExtended implements Serializable {
     private String publishing_house;
     private String catalog_number;
     private int items;
+    private String email;
 
     private int book_item_id;
     private String status;
