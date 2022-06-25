@@ -33,14 +33,14 @@ export const UserBorrowedBooksList = () => {
 				</li>
 				{booksList
 					.filter((book) => book.title.includes(seatchWord))
-					.map(({ book_item_id, title, author, category, publish_year }) => (
+					.map(({ book_item_id, title, date, author, category, publish_year }) => (
 						<BookItemBorrowedUser
 							key={book_item_id}
 							bookTitle={title}
 							bookAuthor={author}
 							bookCategory={category}
-							reservationDate={publish_year}
-							deadline={publish_year}
+							reservationDate={date}
+							deadline={date}
 						/>
 					))}
 			</ul>
