@@ -120,6 +120,38 @@ response:
 ]
 ```
 
+### Search for books by name and/or author
+
+```http
+  GET /book/search
+```
+body parameters:
+
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `text`   | `string` | **Required**.      |
+response:
+
+```JSON
+  [
+    {
+
+        "book_id": 5,
+        "title": "Test Title",
+        "author": "Test Author",
+        "category": "Test Category",
+        "items": 0,
+        "stockItemsCount": 0,
+        "borrowedItemsCount": 0,
+        "reservedItemsCount": 0
+    }, 
+    { 
+    ...
+    }
+]
+```
+
 ### Get book by ID
 Need to pass id as a parameter!
 ```http
@@ -251,6 +283,21 @@ Need to pass id of the BOOK ITEM as a parameter!
   POST /book/return?id=3
 ```
 Need to pass id of the BOOK ITEM as a parameter!
+
+### Get number of all stock, borowed and reserved books
+```http
+  GET /book/stats
+```
+
+```JSON
+  
+    {
+        "borrowed" : 30,
+        "reserved" : 10,
+        "stock", "50"
+    }
+
+```
 
 ### Add a news
 
