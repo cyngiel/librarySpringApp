@@ -18,7 +18,7 @@ CREATE TABLE library.book
     title               VARCHAR(50) NOT NULL,
     author              VARCHAR(50) NOT NULL,
     category            VARCHAR(50) NOT NULL,
-    publish_year        INT(4) UNSIGNED NOT NULL,
+    publish_year        VARCHAR(50) NOT NULL,
     publishing_house    VARCHAR(50), 
     description         VARCHAR(1000), 
     catalog_number      VARCHAR(20), 
@@ -82,7 +82,7 @@ CREATE TABLE library.news
 #########################################################
 
 insert into library.book (title, author, category, publish_year, publishing_house, catalog_number, items, description)
-values ("Harry Potter i Kamień Filozoficzny", "J.K. Rowling", "Fantasy", 2016, "Media Rodzina", "9788380084322", 0, 
+values ("Harry Potter i Kamień Filozoficzny", "J.K. Rowling", "Fantasy", "2016", "Media Rodzina", "9788380084322", 0, 
     "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich 11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia.");
 
 insert into library.user (username, email, password)
