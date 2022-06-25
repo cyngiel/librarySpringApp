@@ -19,7 +19,7 @@ public class BookDetailedInfo implements Serializable {
     private String title;
     private String author;
     private String category;
-    private int publish_year;
+    private String publish_year;
     private String publishing_house;
     private String description;
     private String catalog_number;
