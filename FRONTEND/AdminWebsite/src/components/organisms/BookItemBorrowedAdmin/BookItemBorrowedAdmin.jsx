@@ -15,7 +15,7 @@ export const BookItemBorrowedAdmin = ({
 			{
 				method: 'POST',
 				headers: {
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					'Authorization': `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			}
 		);

@@ -47,7 +47,7 @@ export const AdminChartsView = () => {
 			const res = await fetch('http://localhost:8080/book/all', {
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+					Authorization: `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			});
 			const data = await res.json();
@@ -60,7 +60,7 @@ export const AdminChartsView = () => {
 			const res = await fetch('http://localhost:8080/book/stats', {
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+					Authorization: `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			});
 			const data = await res.json();
@@ -69,14 +69,14 @@ export const AdminChartsView = () => {
 	}, []);
 
 	if (chartData.length > 0) {
-		console.log(chartData);
-		console.log(chartData[0].items);
-		console.log(chartData[0].stockItemsCount);
-		console.log(chartData[0].reservedItemsCount);
-		console.log(chartData[0].borrowedItemsCount);
+		// console.log(chartData);
+		// console.log(chartData[0].items);
+		// console.log(chartData[0].stockItemsCount);
+		// console.log(chartData[0].reservedItemsCount);
+		// console.log(chartData[0].borrowedItemsCount);
 	}
 
-	console.log('to ', overallGraph.borrowed);
+	// console.log('to ', overallGraph.borrowed);
 	return (
 		<>
 			<div>

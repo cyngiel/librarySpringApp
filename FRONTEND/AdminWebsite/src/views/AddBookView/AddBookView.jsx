@@ -3,8 +3,10 @@ import { Input } from '../../components/atoms/Input/Input';
 import { Textarea } from '../../components/atoms/Textarea/Textarea';
 import { useForm } from 'react-hook-form';
 import styles from './AddBookView.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 export const AddBookView = () => {
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -29,19 +31,20 @@ export const AddBookView = () => {
 
 	const onSubmit = (data) => {
 		( async () => {
-			const res = await fetch('http://localhost:8080/book/add', {
+			await fetch('http://localhost:8080/book/add', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					'Authorization': `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 				body: JSON.stringify({
 					...data,
 					publish_year: Number(data.publish_year),
 				})
 			})
-			console.log('Zwrotka', await res.json())
+			// console.log('Zwrotka', await res.json())
 		}) ()
+		navigate('/admin-books-list');
 	};
 
 	return (

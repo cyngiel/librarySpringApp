@@ -7,9 +7,8 @@ const AuthenticatedApp = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const logOut = () => {
-		console.log('logout');
 		dispatch(removeUserStatus(''));
-		localStorage.removeItem('Authorization');
+		localStorage.removeItem('AuthorizationAdmin');
 		navigate('/sign-in');
 	};
 
@@ -79,7 +78,7 @@ export const Navigation = () => {
 	if (userStatus) {}
 	return (
 		<nav className={styles.navMenuWrapper}>
-			{localStorage.getItem('Authorization') ? (
+			{localStorage.getItem('AuthorizationAdmin') ? (
 				<AuthenticatedApp />
 			) : (
 				<UnauthenticatedApp />

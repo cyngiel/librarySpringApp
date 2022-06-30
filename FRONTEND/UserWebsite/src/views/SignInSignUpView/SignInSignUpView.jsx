@@ -22,7 +22,7 @@ const navigate = useNavigate()
 	} = useForm({ mode: 'onSubmit' });
 
 	const onSubmit = (data) => {
-		console.log('submit', data);
+		// console.log('submit', data);
 		if (!isLogIn) {
 			(async () => {
 				const res = await fetch('http://localhost:8080/register', {
@@ -32,7 +32,8 @@ const navigate = useNavigate()
 					},
 					body: JSON.stringify(data),
 				});
-				console.log(await res.text());
+				// console.log(await res.text());
+				window.location.reload(false);
 			})();
 		} else {
 			(async () => {
