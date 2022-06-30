@@ -21,7 +21,7 @@ export const UserReservedBooksList = () => {
 			setBookList(bookData);
 		})();
 	}, [countState]);
-	console.log(booksList);
+	// console.log(booksList);
 
 	return (
 		<div className={styles.listWrapper}>
@@ -34,16 +34,15 @@ export const UserReservedBooksList = () => {
 					<p className={styles.bookDate}>Deadline</p>
 				</li>
 				{booksList
-					.filter((book) => book.title.includes(seatchWord))
-					.map(({ book_item_id, title, author, category, publish_year }) => (
+					.map(({ book_item_id, title, author, date, category, publish_year }) => (
 						<BookItemReservedUser 
 						key={book_item_id}
 						bookItemId={book_item_id}
 						bookTitle={title}
 						bookAuthor={author}
 						bookCategory={category}
-						reservationDate={publish_year}
-						deadline={publish_year}
+						reservationDate={date}
+						deadline={date}
 						setCount={handleState}
 						/>
 					))}

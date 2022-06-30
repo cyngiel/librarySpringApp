@@ -15,7 +15,7 @@ export const AdminBooksList = () => {
 			const res = await fetch('http://localhost:8080/book/all', {
 				method: 'GET',
 				headers: {
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					'Authorization': `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			});
 			const bookData = await res.json()

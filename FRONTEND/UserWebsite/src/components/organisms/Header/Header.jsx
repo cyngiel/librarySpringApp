@@ -3,7 +3,7 @@ import { Navigation } from '../../molecules/Navigation/Navigation';
 import { SearchBookInput } from '../../atoms/SearchBookInput/SearchBookInput';
 import styles from './Header.module.scss';
 
-export const Header = () => {
+export const Header = ( handleUserState ) => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.internalWrapper}>
@@ -11,7 +11,7 @@ export const Header = () => {
 					<Link to='/' style={{ textDecoration: 'none' }}>
 						<h1 className={styles.pageTitle}>Online bookstore</h1>
 					</Link>
-					<Navigation />
+					<Navigation handleUserState={handleUserState}/>
 				</div>
 				<SearchBookInput />
 			</div>

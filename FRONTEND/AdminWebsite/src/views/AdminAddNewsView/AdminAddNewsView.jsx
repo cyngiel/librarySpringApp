@@ -3,8 +3,10 @@ import { Input } from '../../components/atoms/Input/Input';
 import { Textarea } from '../../components/atoms/Textarea/Textarea';
 import { useForm } from 'react-hook-form';
 import styles from './AdminAddNewsView.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 export const AdminAddNewsView = () => {
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -20,18 +22,19 @@ export const AdminAddNewsView = () => {
 
 	const onSubmit = (data) => {
 		(async () => {
-			const res = await fetch('http://localhost:8080/news/add', {
+			await fetch('http://localhost:8080/news/add', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					'Authorization': `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 				body: JSON.stringify({
 					...data
 				}),
 			});
-			console.log('Zwrotka', await res.json());
+			// console.log('Zwrotka', await res.json());
 		})();
+		navigate('admin-charts');
 	};
 
 	return (

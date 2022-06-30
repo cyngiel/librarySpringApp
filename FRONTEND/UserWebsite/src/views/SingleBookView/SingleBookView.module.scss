@@ -4,7 +4,7 @@
   grid-template-rows: 350px 1fr;
   gap: 20px;
   width: 75%;
-  height: 75vh;
+  height: 89vh;
   margin: 0 auto;
   padding: 20px;
   background-color: #ddd;
@@ -40,7 +40,8 @@
 
 .descriptionBlock {
   margin: 10px;
-  grid-column: 1/-1
+  grid-column: 1/-1;
+  overflow-y: auto;
 }
 
 .btn {

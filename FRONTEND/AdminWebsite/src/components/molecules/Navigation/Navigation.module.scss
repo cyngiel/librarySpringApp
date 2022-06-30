@@ -22,6 +22,8 @@
 }
 
 .inactive {
+  font-size: 1rem;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,4 +35,9 @@
   color: black;
   border-radius: 12.5px;
   margin: 0 10px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: rgba(#2daaff, 0.5);
+  }
 }

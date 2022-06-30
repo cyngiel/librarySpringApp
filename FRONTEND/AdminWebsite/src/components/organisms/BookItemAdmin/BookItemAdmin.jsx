@@ -7,7 +7,7 @@ export const BookItemAdmin = ({ id, title, author, availability, items, setCount
 		await fetch(`http://localhost:8080/book/add/item?book_id=${id}`, {
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+				'Authorization': `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 			},
 		});
 		setCount()

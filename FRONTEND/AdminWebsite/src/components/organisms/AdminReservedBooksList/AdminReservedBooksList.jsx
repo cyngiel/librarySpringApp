@@ -8,20 +8,13 @@ export const AdminReservedBooksList = () => {
 	const [booksList, setBookList] = useState([]);
 	const [countState, setCountState] = useState(false);
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		const res = await fetch('http://localhost:8080/book/all');
-	// 		const bookData = await res.json()
-	// 		setBookList(bookData)
-	// 	})()
-	// }, [])
 	const handleState = () => setCountState((prev) => !prev);
 	useEffect(() => {
 		(async () => {
 			const res = await fetch('http://localhost:8080/book/reserve/all', {
 				method: 'GET',
 				headers: {
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					Authorization: `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			});
 			const bookData = await res.json();
@@ -33,10 +26,9 @@ export const AdminReservedBooksList = () => {
 		<div className={styles.listWrapper}>
 			<ul className={styles.bookList}>
 				<li className={styles.bookItemHeader}>
-					<p className={styles.userName}>Name</p>
-					<p className={styles.userSurname}>Surname</p>
 					<p className={styles.userID}>Email</p>
 					<p className={styles.bookCatalogNum}>Book title</p>
+					<p className={styles.bookDate}>Reservation</p>
 					<p className={styles.bookCatalogNum}>Action</p>
 				</li>
 				{booksList
@@ -46,16 +38,17 @@ export const AdminReservedBooksList = () => {
 							book_item_id,
 							book_id: userId,
 							author: userName,
-							items,
+							email,
 							title,
+							date,
 						}) => (
 							<BookItemReservedAdmin
 								key={book_item_id}
 								bookItemId={book_item_id}
-								userName={userName}
-								userSurname={userName}
-								userEmail={`${userName}@gmail.com`}
+								userEmail={email}
 								bookTitle={title}
+								reservationDate={date}
+								deadline={date}
 								setCount={handleState}
 							/>
 						)

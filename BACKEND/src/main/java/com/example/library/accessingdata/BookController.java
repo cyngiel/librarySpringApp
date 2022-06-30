@@ -187,25 +187,22 @@ public class BookController {
 
 
         if (username.equals("admin")) {
-            Iterable<BookItem> allBooks = bookItemRepository.findAll();
+            Iterable<Borrowing> allBorowings = borrowingsRepository.findAll();
 
             List<BookItemExtended> reservedBooks = StreamSupport
-                    .stream(allBooks.spliterator(), false)
-                    .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                    .stream(allBorowings.spliterator(), false)
+                    .filter(borrowing -> borrowing.getBookItem().getStatus().equals(RESERVED))
                     .map(this::mapReservedBooks)
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
         }
-
-        ArrayList<BookItem> allBooks = new ArrayList<>();
-        Iterable<Borrowing> allBorrowings = user.getBorrowings();
-
-        allBorrowings.forEach(borrowing -> allBooks.add(borrowing.getBookItem()));
+        
+        Iterable<Borrowing> allBorowings = user.getBorrowings();
 
         List<BookItemExtended> reservedBooks = StreamSupport
-                .stream(allBooks.spliterator(), false)
-                .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                .stream(allBorowings.spliterator(), false)
+                .filter(borrowing -> borrowing.getBookItem().getStatus().equals(RESERVED))
                 .map(this::mapReservedBooks)
                 .collect(Collectors.toList());
 
@@ -265,44 +262,80 @@ public class BookController {
 
 
         if (username.equals("admin")) {
-            Iterable<BookItem> allBooks = bookItemRepository.findAll();
+            Iterable<Borrowing> allBorowings = borrowingsRepository.findAll();
 
             List<BookItemExtended> reservedBooks = StreamSupport
-                    .stream(allBooks.spliterator(), false)
-                    .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                    .stream(allBorowings.spliterator(), false)
+                    .filter(borrowing -> borrowing.getBookItem().getStatus().equals(BORROWED))
                     .map(this::mapReservedBooks)
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
         }
 
-        ArrayList<BookItem> allBooks = new ArrayList<>();
-        Iterable<Borrowing> allBorrowings = user.getBorrowings();
+        Iterable<Borrowing> allBorowings = user.getBorrowings();
 
-        allBorrowings.forEach(borrowing -> allBooks.add(borrowing.getBookItem()));
 
         List<BookItemExtended> reservedBooks = StreamSupport
-                .stream(allBooks.spliterator(), false)
-                .filter(bookItem -> bookItem.getStatus().equals(BORROWED))
+                .stream(allBorowings.spliterator(), false)
+                .filter(borrowing -> borrowing.getBookItem().getStatus().equals(BORROWED))
                 .map(this::mapReservedBooks)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(reservedBooks, HttpStatus.OK);
     }
 
-    private BookItemExtended mapReservedBooks(BookItem bookItem) {
+    private BookItemExtended mapReservedBooks(Borrowing borrowing) {
         return new BookItemExtended.BookItemExtendedBuilder()
-                .book_id(bookItem.getBook().getBook_id())
-                .title(bookItem.getBook().getTitle())
-                .author(bookItem.getBook().getAuthor())
-                .category(bookItem.getBook().getCategory())
-                .items(bookItem.getBook().getItems())
-                .catalog_number(bookItem.getBook().getCatalog_number())
-                .publish_year(bookItem.getBook().getPublish_year())
-                .publishing_house(bookItem.getBook().getPublishing_house())
-                .book_item_id(bookItem.getBook_item_id())
-                .status(bookItem.getStatus().name())
+                .book_id(borrowing.getBookItem().getBook().getBook_id())
+                .title(borrowing.getBookItem().getBook().getTitle())
+                .author(borrowing.getBookItem().getBook().getAuthor())
+                .category(borrowing.getBookItem().getBook().getCategory())
+                .items(borrowing.getBookItem().getBook().getItems())
+                .catalog_number(borrowing.getBookItem().getBook().getCatalog_number())
+                .publish_year(borrowing.getBookItem().getBook().getPublish_year())
+                .publishing_house(borrowing.getBookItem().getBook().getPublishing_house())
+                .book_item_id(borrowing.getBookItem().getBook_item_id())
+                .status(borrowing.getBookItem().getStatus().name())
+                .date(borrowing.getDate())
+                .email(borrowing.getUser().getEmail())
                 .build();
+    }
+
+    @GetMapping(path = "/stats")
+    public @ResponseBody
+    ResponseEntity<BookStats> getStats() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        UserDao user = usersRepository.findByUsername(username);
+
+
+        if (!username.equals("admin")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Iterable<BookItem> allBooks = bookItemRepository.findAll();
+
+        long reserved = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(RESERVED))
+                .count();
+
+        long borrowed = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(BORROWED))
+                .count();
+
+        long stocked = StreamSupport
+                .stream(allBooks.spliterator(), false)
+                .filter(bookItem -> bookItem.getStatus().equals(STOCK))
+                .count();
+
+        return new ResponseEntity<>(new BookStats((int) stocked, (int) borrowed, (int) reserved), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/delete/book")
