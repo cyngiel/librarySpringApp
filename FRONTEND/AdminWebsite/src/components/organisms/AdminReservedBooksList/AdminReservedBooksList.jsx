@@ -14,7 +14,7 @@ export const AdminReservedBooksList = () => {
 			const res = await fetch('http://localhost:8080/book/reserve/all', {
 				method: 'GET',
 				headers: {
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					Authorization: `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			});
 			const bookData = await res.json();
@@ -22,7 +22,6 @@ export const AdminReservedBooksList = () => {
 		})();
 	}, [countState]);
 
-	console.log(booksList)
 	return (
 		<div className={styles.listWrapper}>
 			<ul className={styles.bookList}>
@@ -30,10 +29,11 @@ export const AdminReservedBooksList = () => {
 					<p className={styles.userID}>Email</p>
 					<p className={styles.bookCatalogNum}>Book title</p>
 					<p className={styles.bookDate}>Reservation</p>
-					<p className={styles.bookDate}>Deadline</p>
 					<p className={styles.bookCatalogNum}>Action</p>
 				</li>
-				{booksList.map(
+				{booksList
+					.filter((book) => book.title.includes(seatchWord))
+					.map(
 						({
 							book_item_id,
 							book_id: userId,

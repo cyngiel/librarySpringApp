@@ -19,7 +19,7 @@ export const UserBorrowedBooksList = () => {
 			setBookList(bookData);
 		})();
 	}, []);
-	console.log(booksList);
+	// console.log(booksList);
 
 	return (
 		<div className={styles.listWrapper}>

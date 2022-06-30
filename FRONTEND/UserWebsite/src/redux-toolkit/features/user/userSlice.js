@@ -9,7 +9,7 @@ export const userSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		addUserStatus: (state, action) => {
-			console.log('user', action.payload);
+			// console.log('user', action.payload);
 			state.userStatus = action.payload;
 		},
 		removeUserStatus: (state, action) => {state.userStatus = action.payload},

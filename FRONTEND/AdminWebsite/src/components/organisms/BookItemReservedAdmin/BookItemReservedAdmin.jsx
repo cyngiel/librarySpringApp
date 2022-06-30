@@ -9,13 +9,14 @@ export const 	BookItemReservedAdmin = ({
 	bookTitle,
 	setCount,
 }) => {
+	
 	const handleBorrowBook = async () => {
 		await fetch(
 			`http://localhost:8080/book/borrow?id=${bookItemId}`,
 			{
 				method: 'POST',
 				headers: {
-					'Authorization': `Bearer ${localStorage.getItem('Authorization')}`,
+					'Authorization': `Bearer ${localStorage.getItem('AuthorizationAdmin')}`,
 				},
 			}
 		);
@@ -31,7 +32,6 @@ export const 	BookItemReservedAdmin = ({
 			<p className={styles.userSurname}>{userEmail}</p>
 			<p className={styles.bookCatalogNum}>{bookTitle}</p>
 			<p className={styles.bookDate}>{reservationDate}</p>
-			<p className={styles.bookDate}>{dateVar}</p>
 			<button className={styles.btn} onClick={handleBorrowBook}>
 				Borrowed
 			</button>

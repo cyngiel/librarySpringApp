@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { SearchBookInput } from '../../atoms/SearchBookInput/SearchBookInput';
 import { Navigation } from '../../molecules/Navigation/Navigation';
 import styles from './Header.module.scss';
 
@@ -12,7 +13,7 @@ export const Header = () => {
 					</Link>
 					<Navigation />
 				</div>
-				{/* <SearchBookInput /> */}
+				<SearchBookInput />
 			</div>
 		</header>
 	);

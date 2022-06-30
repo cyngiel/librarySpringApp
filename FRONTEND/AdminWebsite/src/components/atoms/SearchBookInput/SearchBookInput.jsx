@@ -11,7 +11,6 @@ export const SearchBookInput = () => {
 
 	const handleSearchBookSubmit = (event) => {
 		event.preventDefault();
-		console.log(searchInput);
 		dispatch(enterSearchWord(searchInput));
 		setSearchInput('');
 	};

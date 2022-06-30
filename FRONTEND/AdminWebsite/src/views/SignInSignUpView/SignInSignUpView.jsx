@@ -8,8 +8,8 @@ import { addUserStatus } from '../../redux-toolkit/features/user/userSlice';
 import styles from './SignInSignUpView.module.scss';
 
 export const SignInSignUpView = () => {
-	const navigate = useNavigate()
-	const dispatch = useDispatch()
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isLogIn, setIsLogIn] = useState(true);
 	const handleChangeOption = () => setIsLogIn((prev) => !prev);
 	const {
@@ -19,36 +19,34 @@ export const SignInSignUpView = () => {
 	} = useForm({ mode: 'onSubmit' });
 
 	const onSubmit = (data) => {
-		console.log('submit', data);
 		if (!isLogIn) {
 			(async () => {
-				const res = await fetch('http://localhost:8080/register', {
+				await fetch('http://localhost:8080/register', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify(data),
 				});
-				console.log(await res.text());
 			})();
+			window.location.reload(false);
 		} else {
 			(async () => {
-try {
-	const res = await fetch('http://localhost:8080/authenticate_admin', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(data),
-	});
-	const resdata = await res.json();
-	console.log(resdata.token)
-	localStorage.setItem('Authorization', resdata.token)
-	dispatch(addUserStatus(resdata.token))
-	navigate('/admin-charts')
-} catch (error) {
-	console.log('Incorrect login or password ')
-}
+				try {
+					const res = await fetch('http://localhost:8080/authenticate_admin', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(data),
+					});
+					const resdata = await res.json();
+					localStorage.setItem('AuthorizationAdmin', resdata.token);
+					dispatch(addUserStatus(resdata.token));
+					navigate('/admin-charts');
+				} catch (error) {
+					console.log('Incorrect login or password ');
+				}
 			})();
 		}
 	};
@@ -75,25 +73,13 @@ try {
 			message: 'Password must not contain more than 30 characters',
 		},
 	};
-	const emailValidate = {
-		required: 'Email is required',
-		pattern: {
-			value:
-				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-			message: 'Incorrect form of email ',
-		},
-	};
 
-	const { userStatus } = useSelector(state => state.user)
-	if (userStatus) {} 
+	const { userStatus } = useSelector((state) => state.user);
+	if (userStatus) {
+	}
 	return (
 		<div className={styles.wrapper}>
-			{isLogIn ? (
-				<h2 className={styles.formTitle}>Log Into Online bookstore</h2>
-			) : (
-				<h2 className={styles.formTitle}>Create new account</h2>
-			)}
-
+			<h2 className={styles.formTitle}>Log Into Online bookstore</h2>
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<Input
 					type='text'
@@ -111,29 +97,8 @@ try {
 					validationFunction={passwordValidate}
 					errors={errors.password}
 				/>
-				{!isLogIn && (
-					<Input
-						type='text'
-						name='email'
-						label='Email'
-						register={register}
-						validationFunction={emailValidate}
-						errors={errors.email}
-					/>
-				)}
-				{isLogIn ? (
-					<Button name='Log in' type='submit' />
-				) : (
-					<Button name='Sign Up' type='submit' />
-				)}
+				<Button name='Log in' type='submit' />
 			</form>
-			<div className={styles.delimiter}></div>
-
-			{isLogIn ? (
-				<Button name='Create new account' handleOnClick={handleChangeOption} />
-			) : (
-				<Button name='Log in' handleOnClick={handleChangeOption} />
-			)}
 		</div>
 	);
 };
