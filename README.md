@@ -1,7 +1,6 @@
 # LibrarySpringApp
 
-A library rest spring app
-
+This project is a Library Management System developed using Java, Spring Boot, MySQL, REST, Json Web Token and a Frontend framework. The application allows users to manage library resources, track borrowed books, and handle user registrations and logins. It provides an intuitive interface for both library staff and patrons to interact with the system. 
 
 <hr>
 
